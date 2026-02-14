@@ -170,6 +170,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "EditForm";
+            this.ShowIcon = false;
             this.ResumeLayout(false);
             this.PerformLayout();
 

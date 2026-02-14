@@ -46,23 +46,35 @@
             // 
             // rcDgvTask
             // 
+            this.rcDgvTask.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.rcDgvTask.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.rcDgvTask.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rcDgvTask.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.EditTask,
             this.удалитьToolStripMenuItem});
             this.rcDgvTask.Name = "rcDgvTask";
-            this.rcDgvTask.Size = new System.Drawing.Size(129, 48);
+            this.rcDgvTask.ShowImageMargin = false;
+            this.rcDgvTask.Size = new System.Drawing.Size(156, 70);
             // 
             // EditTask
             // 
+            this.EditTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.EditTask.ForeColor = System.Drawing.Color.White;
+            this.EditTask.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.EditTask.Name = "EditTask";
-            this.EditTask.Size = new System.Drawing.Size(128, 22);
+            this.EditTask.Size = new System.Drawing.Size(155, 22);
             this.EditTask.Text = "Изменить";
             this.EditTask.Click += new System.EventHandler(this.EditTask_Click);
             // 
             // удалитьToolStripMenuItem
             // 
+            this.удалитьToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.удалитьToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.удалитьToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.удалитьToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.удалитьToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.DeleteTask);
             // 
@@ -163,6 +175,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
+            this.ShowIcon = false;
             this.Text = "Планировщик";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.rcDgvTask.ResumeLayout(false);
@@ -178,7 +191,6 @@
         private System.Windows.Forms.ContextMenuStrip rcDgvTask;
         private System.Windows.Forms.ToolStripMenuItem EditTask;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewImageColumn bombImgDataGridViewImageColumn;
         private System.Windows.Forms.Label labelStats;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;

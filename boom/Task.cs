@@ -16,9 +16,9 @@ namespace boom
         public string Description { get; set; }
         public int Status { get; set; } //0 не начата 1 начата 2 выполнена 3 просрочена
         public DateTime Deadline { get; set; }
-        public bool isExploded { get; set; } = false;
-        public bool explodeAnimate { get; set; } = false;
-        public DateTime? explodeStart { get; set; } = null;
+        public bool isOverdue { get; set; } = false;
+        //public bool explodeAnimate { get; set; } = false;
+        //public DateTime? explodeStart { get; set; } = null;
         public TimeSpan left { get; set; }
         public string leftString { get; set; }
 

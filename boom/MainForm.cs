@@ -18,7 +18,7 @@ namespace boom
         BindingList<Task> tasks = new BindingList<Task>();
         Timer timer;
         DateTime now;
-        Image explosionImage = Properties.Resources.boomtest;
+        //Image explosionImage = Properties.Resources.boomtest;
         bool rDgvTaskOpen = false;
         int hoveredRow = -1;
         int hoveredColumn = -1;
@@ -40,7 +40,7 @@ namespace boom
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            dgvTask.RowPostPaint += dgvTask_RowPostPaint;
+            //dgvTask.RowPostPaint += dgvTask_RowPostPaint;
             dgvTask.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvTask.GridColor = dgvTask.BackgroundColor;
             dgvTask.CellMouseDown += dgvTask_CellMouseDown;
@@ -146,19 +146,19 @@ namespace boom
 
 
 
-        private void dgvTask_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            var task = dgvTask.Rows[e.RowIndex].DataBoundItem as Task;
+        //private void dgvTask_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        //{
+        //    var task = dgvTask.Rows[e.RowIndex].DataBoundItem as Task;
 
-            if (task != null && task.explodeAnimate)
-            {
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+        //    if (task != null && task.explodeAnimate)
+        //    {
+        //        e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
 
-                var rowRect = new Rectangle(0, e.RowBounds.Top, dgvTask.Columns.GetColumnsWidth(DataGridViewElementStates.Visible), e.RowBounds.Height);
+        //        var rowRect = new Rectangle(0, e.RowBounds.Top, dgvTask.Columns.GetColumnsWidth(DataGridViewElementStates.Visible), e.RowBounds.Height);
 
-                e.Graphics.DrawImage(explosionImage, rowRect);
-            }
-        }
+        //        e.Graphics.DrawImage(explosionImage, rowRect);
+        //    }
+        //}
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -166,19 +166,21 @@ namespace boom
             foreach (Task task in tasks.ToList())
             {
                 task.left = task.Deadline - now;
-                if (!task.isExploded && now > task.Deadline && task.Status != 2 )
+                if (!task.isOverdue && now > task.Deadline && task.Status != 2 )
                 {
-                    task.isExploded = true;
-                    task.explodeAnimate = true;
-                    task.explodeStart = now;
+                    task.isOverdue = true;
+                    //task.explodeAnimate = true;
+                    //task.explodeStart = now;
+                    task.Status = 3;  //
+                    SortTasks();      //  вырежи если доделаешь ту хрень
                 }
-                if (task.explodeStart.HasValue && now > task.explodeStart.Value.AddSeconds(2))
-                {
-                    task.explodeAnimate = false;
-                    task.explodeStart = null;
-                    task.Status = 3;
-                    SortTasks();
-                }
+                //if (task.explodeStart.HasValue && now > task.explodeStart.Value.AddSeconds(2))
+                //{
+                //    task.explodeAnimate = false;
+                //    task.explodeStart = null;
+                //    task.Status = 3;
+                //    SortTasks();
+                //}
                 task.LeftStringUpdate(now);
             }
             for (int i = 0; i < dgvTask.Rows.Count; i++) 

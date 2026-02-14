@@ -121,27 +121,6 @@
   <data name="boomtest" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\boomtest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bomb1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>D:\Aseprite-v1.16.1\bomb1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>D:\Aseprite-v1.16.1\btn2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btn1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>D:\Aseprite-v1.16.1\btn1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnComplete1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnComplete1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="btnComplete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\btnComplete2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bomb2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bomb2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="window_test" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>D:\Aseprite-v1.16.1\window_test.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="calendarWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\calendarWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
