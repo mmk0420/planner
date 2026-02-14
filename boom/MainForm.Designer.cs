@@ -54,7 +54,7 @@
             this.удалитьToolStripMenuItem});
             this.rcDgvTask.Name = "rcDgvTask";
             this.rcDgvTask.ShowImageMargin = false;
-            this.rcDgvTask.Size = new System.Drawing.Size(156, 70);
+            this.rcDgvTask.Size = new System.Drawing.Size(110, 48);
             // 
             // EditTask
             // 
@@ -62,7 +62,7 @@
             this.EditTask.ForeColor = System.Drawing.Color.White;
             this.EditTask.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.EditTask.Name = "EditTask";
-            this.EditTask.Size = new System.Drawing.Size(155, 22);
+            this.EditTask.Size = new System.Drawing.Size(109, 22);
             this.EditTask.Text = "Изменить";
             this.EditTask.Click += new System.EventHandler(this.EditTask_Click);
             // 
@@ -74,7 +74,7 @@
             this.удалитьToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.удалитьToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.DeleteTask);
             // 
@@ -176,6 +176,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Планировщик";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.rcDgvTask.ResumeLayout(false);
