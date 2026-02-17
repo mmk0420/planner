@@ -39,7 +39,7 @@ namespace boom
 
             if (TimeSpan.TryParseExact(timeInputEd.Text, formats, null, out TimeSpan time))
             {
-                tasked.Name = nameInputEd.Text;
+                tasked.Name = nameInputEd.Text.Trim();
                 tasked.Description = descriptionInputEd.Text;
 
                 tasked.Deadline = dtmInputEd.Value.Date + time;

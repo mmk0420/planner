@@ -37,6 +37,8 @@
             this.btnEditSave = new System.Windows.Forms.Button();
             this.dtmInputEd = new CustomControls.RJControls.RJDatePicker();
             this.timeInputEd = new System.Windows.Forms.MaskedTextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label5
@@ -56,10 +58,11 @@
             this.descriptionInputEd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.descriptionInputEd.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.descriptionInputEd.ForeColor = System.Drawing.Color.White;
-            this.descriptionInputEd.Location = new System.Drawing.Point(80, 59);
+            this.descriptionInputEd.Location = new System.Drawing.Point(0, 0);
             this.descriptionInputEd.Multiline = true;
             this.descriptionInputEd.Name = "descriptionInputEd";
-            this.descriptionInputEd.Size = new System.Drawing.Size(251, 66);
+            this.descriptionInputEd.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.descriptionInputEd.Size = new System.Drawing.Size(268, 66);
             this.descriptionInputEd.TabIndex = 16;
             // 
             // label3
@@ -151,6 +154,14 @@
             this.timeInputEd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.timeInputEd.ValidatingType = typeof(System.DateTime);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.descriptionInputEd);
+            this.panel1.Location = new System.Drawing.Point(80, 59);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(251, 66);
+            this.panel1.TabIndex = 29;
+            // 
             // EditForm
             // 
             this.AcceptButton = this.btnEditSave;
@@ -158,11 +169,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(340, 227);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.timeInputEd);
             this.Controls.Add(this.btnEditSave);
             this.Controls.Add(this.dtmInputEd);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.descriptionInputEd);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.nameInputEd);
             this.Controls.Add(this.label2);
@@ -173,6 +184,8 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Изменить задачу";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,5 +201,6 @@
         private CustomControls.RJControls.RJDatePicker dtmInputEd;
         private System.Windows.Forms.Button btnEditSave;
         private System.Windows.Forms.MaskedTextBox timeInputEd;
+        private System.Windows.Forms.Panel panel1;
     }
 }

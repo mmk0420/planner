@@ -37,6 +37,8 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.timeInput = new System.Windows.Forms.MaskedTextBox();
             this.dtmInput = new CustomControls.RJControls.RJDatePicker();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -90,10 +92,11 @@
             this.descriptionInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.descriptionInput.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.descriptionInput.ForeColor = System.Drawing.Color.White;
-            this.descriptionInput.Location = new System.Drawing.Point(80, 59);
+            this.descriptionInput.Location = new System.Drawing.Point(0, 0);
             this.descriptionInput.Multiline = true;
             this.descriptionInput.Name = "descriptionInput";
-            this.descriptionInput.Size = new System.Drawing.Size(251, 66);
+            this.descriptionInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.descriptionInput.Size = new System.Drawing.Size(268, 69);
             this.descriptionInput.TabIndex = 24;
             // 
             // nameInput
@@ -152,6 +155,14 @@
             this.dtmInput.TabIndex = 25;
             this.dtmInput.TextColor = System.Drawing.Color.White;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.descriptionInput);
+            this.panel1.Location = new System.Drawing.Point(80, 59);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(251, 69);
+            this.panel1.TabIndex = 28;
+            // 
             // FormAdd
             // 
             this.AcceptButton = this.btnSave;
@@ -159,10 +170,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(340, 227);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.timeInput);
             this.Controls.Add(this.dtmInput);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.descriptionInput);
             this.Controls.Add(this.nameInput);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
@@ -174,6 +185,8 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Добавить задачу";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,5 +202,6 @@
         private System.Windows.Forms.TextBox nameInput;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.MaskedTextBox timeInput;
+        private System.Windows.Forms.Panel panel1;
     }
 }

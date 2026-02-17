@@ -26,7 +26,7 @@ namespace boom
 
         public Task()
         {
-            Status = 0; 
+            Status = 0;
         }
 
         public Color GetCurrentColor(bool isHovered)

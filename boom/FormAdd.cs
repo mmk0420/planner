@@ -32,7 +32,7 @@ namespace boom
             {
                 NewTask = new Task
                 {
-                    Name = nameInput.Text,
+                    Name = nameInput.Text.Trim(),
                     Description = descriptionInput.Text,
                     Deadline = dtmInput.Value.Date + time
                 };

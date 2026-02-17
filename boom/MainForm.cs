@@ -138,6 +138,7 @@ namespace boom
                     default:
                         return;
                 }
+                taskInfoHover.UpdateData(task);
                 SortTasks();
                 SaveData();
                 dgvTask.Invalidate();
