@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tulpep.NotificationWindow;
 
 namespace boom
 {
@@ -21,12 +23,31 @@ namespace boom
         //public DateTime? explodeStart { get; set; } = null;
         public TimeSpan left { get; set; }
         public string leftString { get; set; }
-
+        public int Notification { get; set; } = -1225; // -1 - не уведомлять 0 трижды 1 дважды 2 единожды -1225 стандартное
+        public string popupStr { get; set; } = "";
+        public PopupNotifier popup { get; set; } = new PopupNotifier();
 
 
         public Task()
         {
             Status = 0;
+            popup.BodyColor = Color.FromArgb(45, 45, 48);
+            popup.HeaderColor = Color.FromArgb(0, 122, 204);
+            popup.BorderColor = Color.FromArgb(60, 60, 65);
+            popup.GradientPower = 0;
+
+            popup.TitleText = "НАПОМИНАНИЕ";
+            popup.TitleColor = Color.FromArgb(0, 190, 255);
+            popup.TitleFont = new Font("Segoe UI", 12, FontStyle.Bold);
+
+            popup.ContentColor = Color.White;
+            popup.ContentFont = new Font("Segoe UI", 10);
+
+            popup.ShowGrip = false;
+            popup.Delay = 4000;
+            popup.AnimationDuration = 1000;
+            popup.AnimationInterval = 10;
+            popup.Image = Properties.Resources.iconPNG;
         }
 
         public Color GetCurrentColor(bool isHovered)
@@ -43,6 +64,7 @@ namespace boom
                     return isHovered ? Color.FromArgb(82, 82, 91) : Color.FromArgb(63, 63, 70);
             }
         }
+
 
         public void LeftStringUpdate(DateTime now)
         {
