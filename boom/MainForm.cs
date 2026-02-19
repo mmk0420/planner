@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
+using Tulpep.NotificationWindow;
 
 namespace boom
 {
@@ -23,11 +24,13 @@ namespace boom
         int hoveredRow = -1;
         int hoveredColumn = -1;
         DgvHoverForm taskInfoHover = new DgvHoverForm();
-
+        
         public MainForm()
         {
             InitializeComponent();
             LoadData();
+
+            this.Icon = Properties.Resources.icon;
 
             dgvTask.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
             dgvTask.DefaultCellStyle.ForeColor = Color.White; 
@@ -46,6 +49,7 @@ namespace boom
             dgvTask.CellMouseDown += dgvTask_CellMouseDown;
             dgvTask.CellMouseEnter += DgvTask_CellMouseEnter;
             dgvTask.CellMouseLeave += DgvTask_CellMouseLeave;
+
         }
 
         private void SortTasks()
@@ -167,21 +171,51 @@ namespace boom
             foreach (Task task in tasks.ToList())
             {
                 task.left = task.Deadline - now;
-                if (!task.isOverdue && now > task.Deadline && task.Status != 2 )
+                double totalMinutesLeft = task.left.TotalMinutes;
+                string statusPrefix = "";
+
+                if (task.Status == 0) statusPrefix = " Начните её!";
+
+                int totalHours = (int)task.left.TotalHours;
+                task.popupStr = totalHours >= 1
+                    ? $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}"
+                    : $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
+
+                task.popup.ContentText = task.popupStr;
+                //СДЕЛАЙ УВЕД НА ТО ЧТО ЗАДАЧА ПРОСРОЧЕНА
+                if (task.Notification == -1225) 
+                {
+                    if (totalMinutesLeft <= 5) task.Notification = -1;
+                    else if (totalMinutesLeft <= 30) task.Notification = 2;
+                    else if (totalMinutesLeft <= 60) task.Notification = 1;
+                    else task.Notification = 0;
+                }
+                else
+                {
+                    if (totalMinutesLeft <= 5 && task.Notification != -1)
+                    {
+                        task.Notification = -1;
+                        task.popup.Popup();
+                    }
+                    else if (totalMinutesLeft <= 30 && totalMinutesLeft > 5 && task.Notification < 2 && task.Notification >= 0)
+                    {
+                        task.Notification = 2;
+                        task.popup.Popup();
+                    }
+                    else if (totalMinutesLeft <= 60 && totalMinutesLeft > 30 && task.Notification < 1 && task.Notification >= 0)
+                    {
+                        task.Notification = 1;
+                        task.popup.Popup();
+                    }
+                }
+
+                if (!task.isOverdue && now > task.Deadline && task.Status != 2)
                 {
                     task.isOverdue = true;
-                    //task.explodeAnimate = true;
-                    //task.explodeStart = now;
-                    task.Status = 3;  //
-                    SortTasks();      //  вырежи если доделаешь ту хрень
+                    task.Status = 3;
+                    SortTasks();
                 }
-                //if (task.explodeStart.HasValue && now > task.explodeStart.Value.AddSeconds(2))
-                //{
-                //    task.explodeAnimate = false;
-                //    task.explodeStart = null;
-                //    task.Status = 3;
-                //    SortTasks();
-                //}
+
                 task.LeftStringUpdate(now);
             }
             for (int i = 0; i < dgvTask.Rows.Count; i++) 
@@ -275,6 +309,14 @@ namespace boom
             if (taskInfoHover.Visible)
             {
                 taskInfoHover.Location = new Point(Cursor.Position.X + 10, Cursor.Position.Y - 150);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            foreach (Task task in tasks)
+            {
+                task.popup.Popup();
             }
         }
     }
