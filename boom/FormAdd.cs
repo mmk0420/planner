@@ -34,7 +34,8 @@ namespace boom
                 {
                     Name = nameInput.Text.Trim(),
                     Description = descriptionInput.Text,
-                    Deadline = dtmInput.Value.Date + time
+                    Deadline = dtmInput.Value.Date + time,
+                    timeStr = time.ToString(@"hh\:mm")
                 };
                 DialogResult = DialogResult.OK;
             }
