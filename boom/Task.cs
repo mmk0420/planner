@@ -1,4 +1,5 @@
 ﻿using boom.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,10 +22,13 @@ namespace boom
         public bool isOverdue { get; set; } = false;
         //public bool explodeAnimate { get; set; } = false;
         //public DateTime? explodeStart { get; set; } = null;
+        [JsonIgnore]
         public TimeSpan left { get; set; }
+        [JsonIgnore]
         public string leftString { get; set; }
         public int Notification { get; set; } = -1225; // -1 - не уведомлять 0 трижды 1 дважды 2 единожды -1225 стандартное
         public string popupStr { get; set; } = "";
+        [JsonIgnore]
         public PopupNotifier popup { get; set; } = new PopupNotifier();
 
 
@@ -47,7 +51,8 @@ namespace boom
             popup.Delay = 4000;
             popup.AnimationDuration = 1000;
             popup.AnimationInterval = 10;
-            popup.Image = Properties.Resources.iconPNG;
+
+            popup.Image = MainForm.popIMG;
         }
 
         public Color GetCurrentColor(bool isHovered)

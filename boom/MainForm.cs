@@ -24,7 +24,10 @@ namespace boom
         int hoveredRow = -1;
         int hoveredColumn = -1;
         DgvHoverForm taskInfoHover = new DgvHoverForm();
-        
+
+        [JsonIgnore]
+        public static Image popIMG { get; private set; } = Properties.Resources.iconPNG;
+
         public MainForm()
         {
             InitializeComponent();
@@ -96,7 +99,10 @@ namespace boom
                     }
                     SortTasks();
                 }
-                catch{}
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка загрузки: " + ex.Message);
+                }
             }
         }
         private void DgvTask_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
@@ -170,6 +176,7 @@ namespace boom
             now = DateTime.Now;
             foreach (Task task in tasks.ToList())
             {
+
                 task.left = task.Deadline - now;
                 double totalMinutesLeft = task.left.TotalMinutes;
                 string statusPrefix = "";
@@ -177,9 +184,6 @@ namespace boom
                 if (task.Status == 0) statusPrefix = " Начните её!";
 
                 int totalHours = (int)task.left.TotalHours;
-                task.popupStr = totalHours >= 1
-                    ? $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}"
-                    : $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
 
                 task.popup.ContentText = task.popupStr;
                 //СДЕЛАЙ УВЕД НА ТО ЧТО ЗАДАЧА ПРОСРОЧЕНА
@@ -207,6 +211,9 @@ namespace boom
                         task.Notification = 1;
                         task.popup.Popup();
                     }
+                    task.popupStr = totalHours >= 1
+                        ? $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}"
+                        : $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
                 }
 
                 if (!task.isOverdue && now > task.Deadline && task.Status != 2)
