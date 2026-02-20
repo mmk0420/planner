@@ -19,9 +19,9 @@ namespace boom
         public string Description { get; set; }
         public int Status { get; set; } //0 не начата 1 начата 2 выполнена 3 просрочена
         public DateTime Deadline { get; set; }
+        public string timeStr { get; set; }
         public bool isOverdue { get; set; } = false;
-        //public bool explodeAnimate { get; set; } = false;
-        //public DateTime? explodeStart { get; set; } = null;
+
         [JsonIgnore]
         public TimeSpan left { get; set; }
         [JsonIgnore]
@@ -59,8 +59,8 @@ namespace boom
         {
             switch (Status)
             {
-                case 1: 
-                    return isHovered ? Color.FromArgb(161, 98, 7) : Color.FromArgb(133, 77, 14);
+                case 1:
+                    return isHovered ? Color.FromArgb(37, 99, 235) : Color.FromArgb(30, 58, 138);
                 case 2: 
                     return isHovered ? Color.FromArgb(21, 128, 61) : Color.FromArgb(20, 83, 45);
                 case 3: 
