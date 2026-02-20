@@ -19,7 +19,6 @@ namespace boom
         BindingList<Task> tasks = new BindingList<Task>();
         Timer timer;
         DateTime now;
-        //Image explosionImage = Properties.Resources.boomtest;
         bool rDgvTaskOpen = false;
         int hoveredRow = -1;
         int hoveredColumn = -1;
@@ -46,7 +45,6 @@ namespace boom
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            //dgvTask.RowPostPaint += dgvTask_RowPostPaint;
             dgvTask.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvTask.GridColor = dgvTask.BackgroundColor;
             dgvTask.CellMouseDown += dgvTask_CellMouseDown;
@@ -155,22 +153,6 @@ namespace boom
             }
         }
 
-
-
-        //private void dgvTask_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        //{
-        //    var task = dgvTask.Rows[e.RowIndex].DataBoundItem as Task;
-
-        //    if (task != null && task.explodeAnimate)
-        //    {
-        //        e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-        //        var rowRect = new Rectangle(0, e.RowBounds.Top, dgvTask.Columns.GetColumnsWidth(DataGridViewElementStates.Visible), e.RowBounds.Height);
-
-        //        e.Graphics.DrawImage(explosionImage, rowRect);
-        //    }
-        //}
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             now = DateTime.Now;
@@ -181,12 +163,14 @@ namespace boom
                 double totalMinutesLeft = task.left.TotalMinutes;
                 string statusPrefix = "";
 
-                if (task.Status == 0) statusPrefix = " Начните её!";
-
+                if (task.Status == 0)
+                {
+                    statusPrefix = " Начните её!";
+                }
                 int totalHours = (int)task.left.TotalHours;
 
                 task.popup.ContentText = task.popupStr;
-                //СДЕЛАЙ УВЕД НА ТО ЧТО ЗАДАЧА ПРОСРОЧЕНА
+
                 if (task.Notification == -1225) 
                 {
                     if (totalMinutesLeft <= 5) task.Notification = -1;
@@ -196,6 +180,19 @@ namespace boom
                 }
                 else
                 {
+                    if (task.Status != 3)
+                    {
+                        if (totalHours >= 1)
+                        {
+                            if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
+                            else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
+                        }
+                        else
+                        {
+                            if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
+                            else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
+                        }
+                    }
                     if (totalMinutesLeft <= 5 && task.Notification != -1)
                     {
                         task.Notification = -1;
@@ -211,15 +208,18 @@ namespace boom
                         task.Notification = 1;
                         task.popup.Popup();
                     }
-                    task.popupStr = totalHours >= 1
-                        ? $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}"
-                        : $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
                 }
 
                 if (!task.isOverdue && now > task.Deadline && task.Status != 2)
                 {
                     task.isOverdue = true;
                     task.Status = 3;
+                    if (task.Name.Length > 15) task.popupStr = $"Одна из задач просрочилась!";
+                    else task.popupStr = $"Задача \"{task.Name}\" просрочилась!";
+                    task.popup.HeaderColor = Color.FromArgb(185, 28, 28);
+                    task.popup.TitleColor = Color.FromArgb(185, 28, 28);
+                    task.popup.ContentText = task.popupStr;
+                    task.popup.Popup();
                     SortTasks();
                 }
 
