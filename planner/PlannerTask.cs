@@ -76,13 +76,11 @@ namespace planner
             if (Status == 2) { leftString = "✔️ Выполнено"; return; }
             if (Status == 3) { leftString = "❌ Просрочено"; return; }
 
-            TimeSpan diff = Deadline - now;
+            if (left.TotalSeconds <= 0) { leftString = "00:00:00"; return; }
 
-            if (diff.TotalSeconds <= 0) { leftString = "00:00:00"; return; }
-
-            if (diff.TotalHours < 24)
+            if (left.TotalHours < 24)
             {
-                leftString = diff.ToString(@"hh\:mm\:ss");
+                leftString = left.ToString(@"hh\:mm\:ss");
                 return;
             }
 
@@ -117,15 +115,15 @@ namespace planner
                 else
                     leftString = $"{months} мес. {days} дн.";
             }
-            else if (diff.TotalDays >= 7)
+            else if (left.TotalDays >= 7)
             {
-                int weeks = (int)(diff.TotalDays / 7);
-                int remDays = (int)(diff.TotalDays % 7);
+                int weeks = (int)(left.TotalDays / 7);
+                int remDays = (int)(left.TotalDays % 7);
                 leftString = $"{weeks} нед. {remDays} дн.";
             }
             else
             {
-                leftString = $"{diff.Days} дн. {diff.Hours} ч.";
+                leftString = $"{left.Days} дн. {left.Hours} ч.";
             }
         }
     }

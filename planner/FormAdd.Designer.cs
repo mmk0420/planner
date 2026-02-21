@@ -36,8 +36,8 @@
             this.nameInput = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.timeInput = new System.Windows.Forms.MaskedTextBox();
-            this.dtmInput = new CustomControls.RJControls.RJDatePicker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dtmInput = new CustomControls.RJControls.RJDatePicker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,6 +139,14 @@
             this.timeInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.timeInput.ValidatingType = typeof(System.DateTime);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.descriptionInput);
+            this.panel1.Location = new System.Drawing.Point(80, 59);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(251, 69);
+            this.panel1.TabIndex = 28;
+            // 
             // dtmInput
             // 
             this.dtmInput.BorderColor = System.Drawing.Color.DimGray;
@@ -154,14 +162,6 @@
             this.dtmInput.SkinColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.dtmInput.TabIndex = 25;
             this.dtmInput.TextColor = System.Drawing.Color.White;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.descriptionInput);
-            this.panel1.Location = new System.Drawing.Point(80, 59);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(251, 69);
-            this.panel1.TabIndex = 28;
             // 
             // FormAdd
             // 
@@ -179,11 +179,14 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "FormAdd";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Добавить задачу";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

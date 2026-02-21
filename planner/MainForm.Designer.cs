@@ -37,13 +37,18 @@
             this.labelStats = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.dgvTask = new planner.DoubleBufferedDataGridView();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.leftStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.TrayCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.планировщикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rcDgvTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).BeginInit();
+            this.TrayCMS.SuspendLayout();
             this.SuspendLayout();
             // 
             // rcDgvTask
@@ -115,6 +120,13 @@
             this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // TrayIcon
+            // 
+            this.TrayIcon.ContextMenuStrip = this.TrayCMS;
+            this.TrayIcon.Text = "Планировщик";
+            this.TrayIcon.Visible = true;
+            this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseDoubleClick);
+            // 
             // dgvTask
             // 
             this.dgvTask.AllowUserToAddRows = false;
@@ -135,7 +147,7 @@
             this.dgvTask.DataSource = this.taskBindingSource;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Gray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gray;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
@@ -176,6 +188,40 @@
             // 
             this.taskBindingSource.DataSource = typeof(planner.PlannerTask);
             // 
+            // TrayCMS
+            // 
+            this.TrayCMS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TrayCMS.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.TrayCMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.планировщикToolStripMenuItem,
+            this.выходToolStripMenuItem});
+            this.TrayCMS.Name = "TrayCMS";
+            this.TrayCMS.ShowImageMargin = false;
+            this.TrayCMS.Size = new System.Drawing.Size(102, 48);
+            // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.выходToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.выходToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.выходToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // планировщикToolStripMenuItem
+            // 
+            this.планировщикToolStripMenuItem.AutoSize = false;
+            this.планировщикToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.планировщикToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.планировщикToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.планировщикToolStripMenuItem.Name = "планировщикToolStripMenuItem";
+            this.планировщикToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.планировщикToolStripMenuItem.Text = "Открыть";
+            this.планировщикToolStripMenuItem.Click += new System.EventHandler(this.планировщикToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -186,6 +232,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.labelStats);
             this.Controls.Add(this.dgvTask);
+            this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -197,6 +244,7 @@
             this.rcDgvTask.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).EndInit();
+            this.TrayCMS.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -212,6 +260,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn leftStringDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.NotifyIcon TrayIcon;
+        private System.Windows.Forms.ContextMenuStrip TrayCMS;
+        private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem планировщикToolStripMenuItem;
     }
 }
 
