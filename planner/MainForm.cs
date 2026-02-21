@@ -40,7 +40,7 @@ namespace planner
             DoubleBuffered = true;
 
             timer = new Timer();
-            timer.Interval = 50;
+            timer.Interval = 1000;
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -49,7 +49,31 @@ namespace planner
             dgvTask.CellMouseDown += dgvTask_CellMouseDown;
             dgvTask.CellMouseEnter += DgvTask_CellMouseEnter;
             dgvTask.CellMouseLeave += DgvTask_CellMouseLeave;
+            dgvTask.DataBindingComplete += DgvTask_DataBindingComplete;
 
+        }
+
+        private void DgvTask_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            for (int i = 0; i < dgvTask.Rows.Count; i++)
+            {
+                var task = dgvTask.Rows[i].DataBoundItem as PlannerTask;
+
+                if (task != null)
+                {
+                    if (i != hoveredRow)
+                    {
+                        Color normalColor = task.GetCurrentColor(false);
+                        dgvTask.Rows[i].DefaultCellStyle.BackColor = normalColor;
+                        dgvTask.Rows[i].DefaultCellStyle.SelectionBackColor = normalColor;
+
+                        if (task.Status == 0)
+                        {
+                            dgvTask.Rows[i].DefaultCellStyle.ForeColor = Color.White;
+                        }
+                    }
+                }
+            }
         }
 
         private void SortTasks()
@@ -111,6 +135,10 @@ namespace planner
             var task = dgvTask.Rows[e.RowIndex].DataBoundItem as PlannerTask;
             if (task != null)
             {
+                Color hoverColor = task.GetCurrentColor(true);
+                dgvTask.Rows[e.RowIndex].DefaultCellStyle.BackColor = hoverColor;
+                dgvTask.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = hoverColor;
+
                 taskInfoHover.UpdateData(task);
                 taskInfoHover.Show();
             }
@@ -118,6 +146,16 @@ namespace planner
 
         private void DgvTask_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0) return;
+
+            var task = dgvTask.Rows[e.RowIndex].DataBoundItem as PlannerTask;
+            if (task != null)
+            {
+                Color normalColor = task.GetCurrentColor(false);
+                dgvTask.Rows[e.RowIndex].DefaultCellStyle.BackColor = normalColor;
+                dgvTask.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = normalColor;
+            }
+
             hoveredRow = -1;
             hoveredColumn = -1;
             taskInfoHover.Hide();
@@ -218,23 +256,6 @@ namespace planner
 
 
                 task.LeftStringUpdate(now);
-            }
-            for (int i = 0; i < dgvTask.Rows.Count; i++)
-            {
-                var task = dgvTask.Rows[i].DataBoundItem as PlannerTask;
-
-                if (task != null)
-                {
-                    bool isMouseOver = (i == hoveredRow);
-                    Color color = task.GetCurrentColor(isMouseOver);
-
-                    dgvTask.Rows[i].DefaultCellStyle.BackColor = color;
-                    dgvTask.Rows[i].DefaultCellStyle.SelectionBackColor = color;
-                    if (task.Status == 0)
-                    {
-                        dgvTask.Rows[i].DefaultCellStyle.ForeColor = Color.White;
-                    }
-                }
             }
             int active = tasks.Count(t => t.Status == 1);
             int failed = tasks.Count(t => t.Status == 3);
