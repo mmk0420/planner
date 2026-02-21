@@ -91,11 +91,31 @@ namespace planner.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
+        /// </summary>
+        internal static System.Drawing.Icon iconContur {
+            get {
+                object obj = ResourceManager.GetObject("iconContur", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap iconPNG {
             get {
                 object obj = ResourceManager.GetObject("iconPNG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap iconPNGContur {
+            get {
+                object obj = ResourceManager.GetObject("iconPNGContur", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -32,7 +32,7 @@ namespace planner
             LoadData();
 
             this.Icon = Properties.Resources.icon;
-            TrayIcon.Icon = Properties.Resources.icon;
+            TrayIcon.Icon = Properties.Resources.iconContur;
 
             dgvTask.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
             dgvTask.DefaultCellStyle.ForeColor = Color.White; 
