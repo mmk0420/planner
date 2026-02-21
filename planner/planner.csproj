@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9FDBA38F-1FF9-4A88-97E2-FD610EB4FFB0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>boom</RootNamespace>
-    <AssemblyName>boom</AssemblyName>
+    <RootNamespace>planner</RootNamespace>
+    <AssemblyName>planner</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

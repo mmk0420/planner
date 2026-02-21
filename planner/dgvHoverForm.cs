@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace boom
+namespace planner
 {
     public partial class DgvHoverForm : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace boom
+﻿namespace planner
 {
     partial class MainForm
     {
@@ -37,7 +37,7 @@
             this.labelStats = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.dgvTask = new boom.DoubleBufferedDataGridView();
+            this.dgvTask = new planner.DoubleBufferedDataGridView();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.leftStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -174,7 +174,7 @@
             // 
             // taskBindingSource
             // 
-            this.taskBindingSource.DataSource = typeof(boom.Task);
+            this.taskBindingSource.DataSource = typeof(planner.Task);
             // 
             // MainForm
             // 

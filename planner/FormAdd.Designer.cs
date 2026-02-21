@@ -1,4 +1,4 @@
-﻿namespace boom
+﻿namespace planner
 {
     partial class FormAdd
     {

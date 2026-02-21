@@ -1,4 +1,4 @@
-﻿using boom.Properties;
+﻿using planner.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
 
-namespace boom
+namespace planner
 {
     public class Task
     {
