@@ -12,14 +12,13 @@ using System.IO;
 using Newtonsoft.Json;
 using Tulpep.NotificationWindow;
 
-namespace boom
+namespace planner
 {
     public partial class MainForm : Form
     {
         BindingList<Task> tasks = new BindingList<Task>();
         Timer timer;
         DateTime now;
-        bool rDgvTaskOpen = false;
         int hoveredRow = -1;
         int hoveredColumn = -1;
         DgvHoverForm taskInfoHover = new DgvHoverForm();

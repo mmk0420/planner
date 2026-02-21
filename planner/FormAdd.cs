@@ -8,43 +8,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace boom
+namespace planner
 {
-    public partial class EditForm : Form
+    public partial class FormAdd : Form
     {
-        private Task tasked;
-
-        public EditForm(Task task)
+        public Task NewTask { get; private set; }
+        public FormAdd()
         {
             InitializeComponent();
-            tasked = task;
-
-            nameInputEd.Text = task.Name;
-            descriptionInputEd.Text = task.Description;
-
-            dtmInputEd.Value = task.Deadline.Date;
-
-            timeInputEd.Text = task.Deadline.ToString("HH:mm");
+            dtmInput.Value = DateTime.Now;
+            timeInput.Text = DateTime.Now.ToString("HH:mm");
         }
 
-        private void btnEditSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(nameInputEd.Text))
+            if (string.IsNullOrWhiteSpace(nameInput.Text))
             {
                 MessageBox.Show("Пожалуйста, введите название задачи.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
             string[] formats = { @"h\:mm", @"hh\:mm" };
-
-            if (TimeSpan.TryParseExact(timeInputEd.Text, formats, null, out TimeSpan time))
+            if (TimeSpan.TryParseExact(timeInput.Text, formats, null, out TimeSpan time))
             {
-                tasked.Name = nameInputEd.Text.Trim();
-                tasked.Description = descriptionInputEd.Text;
-
-                tasked.Deadline = dtmInputEd.Value.Date + time;
-
-                this.DialogResult = DialogResult.OK;
+                NewTask = new Task
+                {
+                    Name = nameInput.Text.Trim(),
+                    Description = descriptionInput.Text,
+                    Deadline = dtmInput.Value.Date + time,
+                    timeStr = time.ToString(@"hh\:mm")
+                };
+                DialogResult = DialogResult.OK;
             }
             else
             {

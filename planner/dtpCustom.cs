@@ -21,7 +21,7 @@ namespace CustomControls.RJControls
 
         //-> Other Values
         private bool droppedDown = false;
-        private Image calendarIcon = boom.Properties.Resources.calendarWhite;
+        private Image calendarIcon = planner.Properties.Resources.calendarWhite;
         private RectangleF iconButtonArea;
         private const int calendarIconWidth = 34;
         private const int arrowIconWidth = 17;
@@ -34,8 +34,8 @@ namespace CustomControls.RJControls
             {
                 skinColor = value;
                 if (skinColor.GetBrightness() >= 0.6F)
-                    calendarIcon = boom.Properties.Resources.calendarDark;
-                else calendarIcon = boom.Properties.Resources.calendarWhite;
+                    calendarIcon = planner.Properties.Resources.calendarDark;
+                else calendarIcon = planner.Properties.Resources.calendarWhite;
                 this.Invalidate();
             }
         }
