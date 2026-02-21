@@ -16,7 +16,7 @@ namespace planner
 {
     public partial class MainForm : Form
     {
-        BindingList<Task> tasks = new BindingList<Task>();
+        BindingList<PlannerTask> tasks = new BindingList<PlannerTask>();
         Timer timer;
         DateTime now;
         int hoveredRow = -1;
@@ -40,7 +40,7 @@ namespace planner
             DoubleBuffered = true;
 
             timer = new Timer();
-            timer.Interval = 20;
+            timer.Interval = 50;
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -87,7 +87,7 @@ namespace planner
                 try
                 {
                     string json = File.ReadAllText("tasks.json");
-                    var loadedTasks = JsonConvert.DeserializeObject<List<Task>>(json);
+                    var loadedTasks = JsonConvert.DeserializeObject<List<PlannerTask>>(json);
 
                     tasks.Clear();
                     foreach (var task in loadedTasks)
@@ -108,7 +108,7 @@ namespace planner
             hoveredRow = e.RowIndex;
             hoveredColumn = e.ColumnIndex;
 
-            var task = dgvTask.Rows[e.RowIndex].DataBoundItem as Task;
+            var task = dgvTask.Rows[e.RowIndex].DataBoundItem as PlannerTask;
             if (task != null)
             {
                 taskInfoHover.UpdateData(task);
@@ -133,7 +133,7 @@ namespace planner
             }
             if (e.Button == MouseButtons.Left && hoveredRow >= 0 && hoveredColumn >= 0)
             {
-                Task task = tasks[hoveredRow];
+                PlannerTask task = tasks[hoveredRow];
                 switch (task.Status)
                 {
                     case 0:
@@ -155,7 +155,7 @@ namespace planner
         private void Timer_Tick(object sender, EventArgs e)
         {
             now = DateTime.Now;
-            foreach (Task task in tasks.ToList())
+            foreach (PlannerTask task in tasks.ToList())
             {
 
                 task.left = task.Deadline - now;
@@ -168,9 +168,7 @@ namespace planner
                 }
                 int totalHours = (int)task.left.TotalHours;
 
-                task.popup.ContentText = task.popupStr;
-
-                if (task.Notification == -1225) 
+                if (task.Notification == -1225)
                 {
                     if (totalMinutesLeft <= 5) task.Notification = -1;
                     else if (totalMinutesLeft <= 30) task.Notification = 2;
@@ -179,31 +177,27 @@ namespace planner
                 }
                 else
                 {
-                    if (task.Status != 3)
-                    {
-                        if (totalHours >= 1)
-                        {
-                            if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
-                            else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось {totalHours} ч. {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
-                        }
-                        else
-                        {
-                            if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
-                            else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось {task.left.Minutes} м. {task.left.Seconds} с.!{statusPrefix}";
-                        }
-                    }
                     if (totalMinutesLeft <= 5 && task.Notification != -1)
                     {
+                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 5 минут!{statusPrefix}";
+                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 5 минут!{statusPrefix}";
+                        task.popup.ContentText = task.popupStr;
                         task.Notification = -1;
                         task.popup.Popup();
                     }
                     else if (totalMinutesLeft <= 30 && totalMinutesLeft > 5 && task.Notification < 2 && task.Notification >= 0)
                     {
+                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 30 минут!{statusPrefix}";
+                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 30 минут!{statusPrefix}";
+                        task.popup.ContentText = task.popupStr;
                         task.Notification = 2;
                         task.popup.Popup();
                     }
                     else if (totalMinutesLeft <= 60 && totalMinutesLeft > 30 && task.Notification < 1 && task.Notification >= 0)
                     {
+                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше часа!{statusPrefix}";
+                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше часа!{statusPrefix}";
+                        task.popup.ContentText = task.popupStr;
                         task.Notification = 1;
                         task.popup.Popup();
                     }
@@ -222,11 +216,12 @@ namespace planner
                     SortTasks();
                 }
 
+
                 task.LeftStringUpdate(now);
             }
-            for (int i = 0; i < dgvTask.Rows.Count; i++) 
+            for (int i = 0; i < dgvTask.Rows.Count; i++)
             {
-                var task = dgvTask.Rows[i].DataBoundItem as Task;
+                var task = dgvTask.Rows[i].DataBoundItem as PlannerTask;
 
                 if (task != null)
                 {
@@ -234,10 +229,10 @@ namespace planner
                     Color color = task.GetCurrentColor(isMouseOver);
 
                     dgvTask.Rows[i].DefaultCellStyle.BackColor = color;
-                    dgvTask.Rows[i].DefaultCellStyle.SelectionBackColor = color; 
+                    dgvTask.Rows[i].DefaultCellStyle.SelectionBackColor = color;
                     if (task.Status == 0)
                     {
-                        dgvTask.Rows[i].DefaultCellStyle.ForeColor = Color.White; 
+                        dgvTask.Rows[i].DefaultCellStyle.ForeColor = Color.White;
                     }
                 }
             }
@@ -266,7 +261,7 @@ namespace planner
                 if (result == DialogResult.Yes)
                 {
                     var row = dgvTask.SelectedRows[0];
-                    var selectedTask = row.DataBoundItem as Task;   
+                    var selectedTask = row.DataBoundItem as PlannerTask;   
                     if (selectedTask != null)
                     {
                         tasks.Remove(selectedTask);
@@ -281,7 +276,7 @@ namespace planner
         {
             if (dgvTask.SelectedRows.Count > 0)
             {
-                var task = dgvTask.SelectedRows[0].DataBoundItem as Task;
+                var task = dgvTask.SelectedRows[0].DataBoundItem as PlannerTask;
 
                 if (task.Status == 2)
                 {
@@ -320,7 +315,7 @@ namespace planner
 
         private void button2_Click(object sender, EventArgs e)
         {
-            foreach (Task task in tasks)
+            foreach (PlannerTask task in tasks)
             {
                 task.popup.Popup();
             }

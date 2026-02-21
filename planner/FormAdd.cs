@@ -12,7 +12,7 @@ namespace planner
 {
     public partial class FormAdd : Form
     {
-        public Task NewTask { get; private set; }
+        public PlannerTask NewTask { get; private set; }
         public FormAdd()
         {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace planner
             string[] formats = { @"h\:mm", @"hh\:mm" };
             if (TimeSpan.TryParseExact(timeInput.Text, formats, null, out TimeSpan time))
             {
-                NewTask = new Task
+                NewTask = new PlannerTask
                 {
                     Name = nameInput.Text.Trim(),
                     Description = descriptionInput.Text,

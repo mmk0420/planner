@@ -120,7 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Task.cs" />
+    <Compile Include="PlannerTask.cs" />
     <EmbeddedResource Include="dgvHoverForm.resx">
       <DependentUpon>dgvHoverForm.cs</DependentUpon>
     </EmbeddedResource>

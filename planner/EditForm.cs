@@ -12,9 +12,9 @@ namespace planner
 {
     public partial class EditForm : Form
     {
-        private Task tasked;
+        private PlannerTask tasked;
 
-        public EditForm(Task task)
+        public EditForm(PlannerTask task)
         {
             InitializeComponent();
             tasked = task;

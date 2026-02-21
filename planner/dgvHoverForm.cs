@@ -83,7 +83,7 @@ namespace planner
             }
         }
 
-        public void UpdateData(Task task)
+        public void UpdateData(PlannerTask task)
         {
             labelName.Text = task.Name;
             labelDesc.Text = task.Description;
@@ -114,7 +114,7 @@ namespace planner
             UpdateStatD(task); 
         }
 
-        private void UpdateStatD(Task task)
+        private void UpdateStatD(PlannerTask task)
         {
             switch (task.Status)
             {
