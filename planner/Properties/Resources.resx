@@ -130,4 +130,10 @@
   <data name="iconPNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iconPNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="iconPNGContur" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iconPNGContur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="iconContur" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\iconContur.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
