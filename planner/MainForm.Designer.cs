@@ -174,7 +174,7 @@
             // 
             // taskBindingSource
             // 
-            this.taskBindingSource.DataSource = typeof(planner.Task);
+            this.taskBindingSource.DataSource = typeof(planner.PlannerTask);
             // 
             // MainForm
             // 

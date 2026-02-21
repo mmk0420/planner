@@ -12,7 +12,7 @@ using Tulpep.NotificationWindow;
 
 namespace planner
 {
-    public class Task
+    public class PlannerTask
     {
 
         public string Name { get; set; }
@@ -32,7 +32,7 @@ namespace planner
         public PopupNotifier popup { get; set; } = new PopupNotifier();
 
 
-        public Task()
+        public PlannerTask()
         {
             Status = 0;
             popup.BodyColor = Color.FromArgb(45, 45, 48);
