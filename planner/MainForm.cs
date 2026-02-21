@@ -32,6 +32,7 @@ namespace planner
             LoadData();
 
             this.Icon = Properties.Resources.icon;
+            TrayIcon.Icon = Properties.Resources.icon;
 
             dgvTask.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
             dgvTask.DefaultCellStyle.ForeColor = Color.White; 
@@ -40,7 +41,7 @@ namespace planner
             DoubleBuffered = true;
 
             timer = new Timer();
-            timer.Interval = 1000;
+            timer.Interval = 500;
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -265,6 +266,7 @@ namespace planner
         private void btnAdd_Click(object sender, EventArgs e)
         {
             FormAdd form = new FormAdd();
+            form.Location = new Point(this.Location.X - 45, this.Location.Y + 30);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 tasks.Add(form.NewTask);
@@ -311,6 +313,7 @@ namespace planner
                 taskInfoHover.Hide();
 
                 EditForm form = new EditForm(task);
+                form.Location = new Point(this.Location.X - 45, this.Location.Y + 30);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     SaveData(); 
@@ -323,6 +326,11 @@ namespace planner
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+            }
             SaveData();
         }
 
@@ -340,6 +348,30 @@ namespace planner
             {
                 task.popup.Popup();
             }
+        }
+
+        private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы уверены?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+                SaveData();
+            }
+        }
+
+        private void планировщикToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.Activate();
         }
     }
 }
