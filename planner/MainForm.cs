@@ -16,6 +16,7 @@ namespace planner
 {
     public partial class MainForm : Form
     {
+        public static MainForm mform { get; private set; }
         BindingList<PlannerTask> tasks = new BindingList<PlannerTask>();
         Timer timer;
         DateTime now;
@@ -248,8 +249,6 @@ namespace planner
                     task.Status = 3;
                     if (task.Name.Length > 15) task.popupStr = $"Одна из задач просрочилась!";
                     else task.popupStr = $"Задача \"{task.Name}\" просрочилась!";
-                    task.popup.HeaderColor = Color.FromArgb(185, 28, 28);
-                    task.popup.TitleColor = Color.FromArgb(185, 28, 28);
                     task.popup.ContentText = task.popupStr;
                     task.popup.Popup();
                     SortTasks();

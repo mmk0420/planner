@@ -35,10 +35,11 @@ namespace planner
         public PlannerTask()
         {
             Status = 0;
+
             popup.BodyColor = Color.FromArgb(45, 45, 48);
             popup.HeaderColor = Color.FromArgb(0, 122, 204);
             popup.BorderColor = Color.FromArgb(60, 60, 65);
-            popup.GradientPower = 0;
+            popup.GradientPower = 20;
 
             popup.TitleText = "НАПОМИНАНИЕ";
             popup.TitleColor = Color.FromArgb(0, 190, 255);
