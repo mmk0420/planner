@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelMain = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,21 +37,23 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.timeInput = new System.Windows.Forms.MaskedTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.DeadlineCheck = new System.Windows.Forms.CheckBox();
+            this.NotifyBtn = new System.Windows.Forms.Button();
             this.dtmInput = new CustomControls.RJControls.RJDatePicker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // labelMain
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(15, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(316, 24);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Добавить задачу\r\n";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelMain.BackColor = System.Drawing.Color.Transparent;
+            this.labelMain.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelMain.ForeColor = System.Drawing.Color.White;
+            this.labelMain.Location = new System.Drawing.Point(15, 4);
+            this.labelMain.Name = "labelMain";
+            this.labelMain.Size = new System.Drawing.Size(333, 24);
+            this.labelMain.TabIndex = 15;
+            this.labelMain.Text = "Добавить задачу\r\n";
+            this.labelMain.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label5
             // 
@@ -96,7 +98,7 @@
             this.descriptionInput.Multiline = true;
             this.descriptionInput.Name = "descriptionInput";
             this.descriptionInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.descriptionInput.Size = new System.Drawing.Size(268, 69);
+            this.descriptionInput.Size = new System.Drawing.Size(285, 69);
             this.descriptionInput.TabIndex = 24;
             // 
             // nameInput
@@ -107,7 +109,7 @@
             this.nameInput.ForeColor = System.Drawing.Color.White;
             this.nameInput.Location = new System.Drawing.Point(47, 28);
             this.nameInput.Name = "nameInput";
-            this.nameInput.Size = new System.Drawing.Size(284, 25);
+            this.nameInput.Size = new System.Drawing.Size(301, 25);
             this.nameInput.TabIndex = 23;
             // 
             // btnSave
@@ -117,9 +119,9 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(12, 162);
+            this.btnSave.Location = new System.Drawing.Point(15, 211);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(319, 53);
+            this.btnSave.Size = new System.Drawing.Size(333, 49);
             this.btnSave.TabIndex = 26;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = false;
@@ -131,7 +133,7 @@
             this.timeInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.timeInput.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeInput.ForeColor = System.Drawing.Color.White;
-            this.timeInput.Location = new System.Drawing.Point(80, 131);
+            this.timeInput.Location = new System.Drawing.Point(99, 131);
             this.timeInput.Mask = "00:00";
             this.timeInput.Name = "timeInput";
             this.timeInput.Size = new System.Drawing.Size(37, 25);
@@ -144,8 +146,35 @@
             this.panel1.Controls.Add(this.descriptionInput);
             this.panel1.Location = new System.Drawing.Point(80, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(251, 69);
+            this.panel1.Size = new System.Drawing.Size(268, 69);
             this.panel1.TabIndex = 28;
+            // 
+            // DeadlineCheck
+            // 
+            this.DeadlineCheck.BackColor = System.Drawing.Color.Transparent;
+            this.DeadlineCheck.Checked = true;
+            this.DeadlineCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.DeadlineCheck.ForeColor = System.Drawing.Color.Black;
+            this.DeadlineCheck.Location = new System.Drawing.Point(80, 131);
+            this.DeadlineCheck.Name = "DeadlineCheck";
+            this.DeadlineCheck.Size = new System.Drawing.Size(46, 25);
+            this.DeadlineCheck.TabIndex = 25;
+            this.DeadlineCheck.UseVisualStyleBackColor = false;
+            // 
+            // NotifyBtn
+            // 
+            this.NotifyBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
+            this.NotifyBtn.BackgroundImage = global::planner.Properties.Resources.plusss;
+            this.NotifyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.NotifyBtn.FlatAppearance.BorderSize = 0;
+            this.NotifyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NotifyBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.NotifyBtn.ForeColor = System.Drawing.Color.White;
+            this.NotifyBtn.Location = new System.Drawing.Point(15, 159);
+            this.NotifyBtn.Name = "NotifyBtn";
+            this.NotifyBtn.Size = new System.Drawing.Size(50, 46);
+            this.NotifyBtn.TabIndex = 29;
+            this.NotifyBtn.UseVisualStyleBackColor = false;
             // 
             // dtmInput
             // 
@@ -155,10 +184,10 @@
             this.dtmInput.CalendarTitleForeColor = System.Drawing.Color.White;
             this.dtmInput.CustomFormat = "";
             this.dtmInput.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dtmInput.Location = new System.Drawing.Point(123, 131);
+            this.dtmInput.Location = new System.Drawing.Point(142, 131);
             this.dtmInput.MinimumSize = new System.Drawing.Size(4, 25);
             this.dtmInput.Name = "dtmInput";
-            this.dtmInput.Size = new System.Drawing.Size(208, 25);
+            this.dtmInput.Size = new System.Drawing.Size(206, 25);
             this.dtmInput.SkinColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.dtmInput.TabIndex = 25;
             this.dtmInput.TextColor = System.Drawing.Color.White;
@@ -169,16 +198,18 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(340, 227);
+            this.ClientSize = new System.Drawing.Size(360, 272);
+            this.Controls.Add(this.NotifyBtn);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.timeInput);
             this.Controls.Add(this.dtmInput);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.nameInput);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelMain);
+            this.Controls.Add(this.DeadlineCheck);
+            this.Controls.Add(this.label5);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -196,7 +227,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMain;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -206,5 +237,7 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.MaskedTextBox timeInput;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox DeadlineCheck;
+        private System.Windows.Forms.Button NotifyBtn;
     }
 }
