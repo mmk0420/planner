@@ -95,12 +95,6 @@
     <Compile Include="dtpCustom.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="EditForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditForm.Designer.cs">
-      <DependentUpon>EditForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormAdd.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,9 +117,6 @@
     <Compile Include="PlannerTask.cs" />
     <EmbeddedResource Include="dgvHoverForm.resx">
       <DependentUpon>dgvHoverForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditForm.resx">
-      <DependentUpon>EditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAdd.resx">
       <DependentUpon>FormAdd.cs</DependentUpon>
@@ -158,9 +149,6 @@
     <None Include="Resources\btn1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\btn2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\bomb1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +168,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\iconPNG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pluss.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plusss.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

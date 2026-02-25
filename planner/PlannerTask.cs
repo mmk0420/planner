@@ -26,7 +26,7 @@ namespace planner
         public TimeSpan left { get; set; }
         [JsonIgnore]
         public string leftString { get; set; }
-        public int Notification { get; set; } = -1225; // -1 - не уведомлять 0 трижды 1 дважды 2 единожды -1225 стандартное
+        public int Notification { get; set; } = 0; 
         public string popupStr { get; set; } = "";
         [JsonIgnore]
         public PopupNotifier popup { get; set; } = new PopupNotifier();

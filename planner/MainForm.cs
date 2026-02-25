@@ -16,7 +16,7 @@ namespace planner
 {
     public partial class MainForm : Form
     {
-        public static MainForm mform { get; private set; }
+        public static bool editMode { get; set;  }
         BindingList<PlannerTask> tasks = new BindingList<PlannerTask>();
         Timer timer;
         DateTime now;
@@ -33,7 +33,7 @@ namespace planner
             LoadData();
 
             this.Icon = Properties.Resources.icon;
-            TrayIcon.Icon = Properties.Resources.iconContur;
+            TrayIcon.Icon = Properties.Resources.icon;
 
             dgvTask.DefaultCellStyle.BackColor = Color.FromArgb(45, 45, 48);
             dgvTask.DefaultCellStyle.ForeColor = Color.White; 
@@ -197,51 +197,9 @@ namespace planner
             now = DateTime.Now;
             foreach (PlannerTask task in tasks.ToList())
             {
-
                 task.left = task.Deadline - now;
-                double totalMinutesLeft = task.left.TotalMinutes;
-                string statusPrefix = "";
 
-                if (task.Status == 0)
-                {
-                    statusPrefix = " Начните её!";
-                }
-                int totalHours = (int)task.left.TotalHours;
-
-                if (task.Notification == -1225)
-                {
-                    if (totalMinutesLeft <= 5) task.Notification = -1;
-                    else if (totalMinutesLeft <= 30) task.Notification = 2;
-                    else if (totalMinutesLeft <= 60) task.Notification = 1;
-                    else task.Notification = 0;
-                }
-                else
-                {
-                    if (totalMinutesLeft <= 5 && task.Notification != -1)
-                    {
-                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 5 минут!{statusPrefix}";
-                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 5 минут!{statusPrefix}";
-                        task.popup.ContentText = task.popupStr;
-                        task.Notification = -1;
-                        task.popup.Popup();
-                    }
-                    else if (totalMinutesLeft <= 30 && totalMinutesLeft > 5 && task.Notification < 2 && task.Notification >= 0)
-                    {
-                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 30 минут!{statusPrefix}";
-                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 30 минут!{statusPrefix}";
-                        task.popup.ContentText = task.popupStr;
-                        task.Notification = 2;
-                        task.popup.Popup();
-                    }
-                    else if (totalMinutesLeft <= 60 && totalMinutesLeft > 30 && task.Notification < 1 && task.Notification >= 0)
-                    {
-                        if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше часа!{statusPrefix}";
-                        else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше часа!{statusPrefix}";
-                        task.popup.ContentText = task.popupStr;
-                        task.Notification = 1;
-                        task.popup.Popup();
-                    }
-                }
+                NotifyUpdate(task);
 
                 if (!task.isOverdue && now > task.Deadline && task.Status != 2)
                 {
@@ -262,9 +220,59 @@ namespace planner
             labelStats.Text = $"В работе: {active} | Провалено: {failed} | Всего: {tasks.Count}";
             dgvTask.Invalidate();
         }
+
+        private void NotifyUpdate(PlannerTask task)
+        {
+            string statusPrefix = "";
+            int totalHours = (int)task.left.TotalHours;
+            double totalMinutesLeft = task.left.TotalMinutes;
+
+            if (task.Status == 0)
+            {
+                statusPrefix = " Начните её!";
+            }
+
+            if (task.Notification == -1225)
+            {
+                if (totalMinutesLeft <= 5) task.Notification = -1;
+                else if (totalMinutesLeft <= 30) task.Notification = 2;
+                else if (totalMinutesLeft <= 60) task.Notification = 1;
+                else task.Notification = 0;
+            }
+            else
+            {
+                if (totalMinutesLeft <= 5 && task.Notification != -1)
+                {
+                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 5 минут!{statusPrefix}";
+                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 5 минут!{statusPrefix}";
+                    task.popup.ContentText = task.popupStr;
+                    task.Notification = -1;
+                    task.popup.Popup();
+                }
+                else if (totalMinutesLeft <= 30 && totalMinutesLeft > 5 && task.Notification < 2 && task.Notification >= 0)
+                {
+                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 30 минут!{statusPrefix}";
+                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 30 минут!{statusPrefix}";
+                    task.popup.ContentText = task.popupStr;
+                    task.Notification = 2;
+                    task.popup.Popup();
+                }
+                else if (totalMinutesLeft <= 60 && totalMinutesLeft > 30 && task.Notification < 1 && task.Notification >= 0)
+                {
+                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше часа!{statusPrefix}";
+                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше часа!{statusPrefix}";
+                    task.popup.ContentText = task.popupStr;
+                    task.Notification = 1;
+                    task.popup.Popup();
+                }
+            }
+            return;
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            FormAdd form = new FormAdd();
+            editMode = false;
+            FormAdd form = new FormAdd(null);
             form.Location = new Point(this.Location.X - 45, this.Location.Y + 30);
             if (form.ShowDialog() == DialogResult.OK)
             {
@@ -311,13 +319,13 @@ namespace planner
                 }
                 taskInfoHover.Hide();
 
-                EditForm form = new EditForm(task);
+                editMode = true;
+                FormAdd form = new FormAdd(task);
                 form.Location = new Point(this.Location.X - 45, this.Location.Y + 30);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     SaveData(); 
                 }
-
                 dgvTask.Refresh(); 
                 SortTasks();       
             }
