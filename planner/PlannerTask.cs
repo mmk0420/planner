@@ -21,39 +21,19 @@ namespace planner
         public DateTime Deadline { get; set; }
         public string timeStr { get; set; }
         public bool isOverdue { get; set; } = false;
+        //public List<string> notifyTimeString { get; set; } = new List<string>();
+        public List<DateTime> notifyTimes { get; set; } = new List<DateTime>();
 
         [JsonIgnore]
         public TimeSpan left { get; set; }
         [JsonIgnore]
         public string leftString { get; set; }
         public int Notification { get; set; } = 0; 
-        public string popupStr { get; set; } = "";
-        [JsonIgnore]
-        public PopupNotifier popup { get; set; } = new PopupNotifier();
 
 
         public PlannerTask()
         {
             Status = 0;
-
-            popup.BodyColor = Color.FromArgb(45, 45, 48);
-            popup.HeaderColor = Color.FromArgb(0, 122, 204);
-            popup.BorderColor = Color.FromArgb(60, 60, 65);
-            popup.GradientPower = 20;
-
-            popup.TitleText = "НАПОМИНАНИЕ";
-            popup.TitleColor = Color.FromArgb(0, 190, 255);
-            popup.TitleFont = new Font("Segoe UI", 12, FontStyle.Bold);
-
-            popup.ContentColor = Color.White;
-            popup.ContentFont = new Font("Segoe UI", 10);
-
-            popup.ShowGrip = false;
-            popup.Delay = 4000;
-            popup.AnimationDuration = 1000;
-            popup.AnimationInterval = 10;
-
-            popup.Image = MainForm.popIMG;
         }
 
         public Color GetCurrentColor(bool isHovered)
@@ -70,7 +50,6 @@ namespace planner
                     return isHovered ? Color.FromArgb(82, 82, 91) : Color.FromArgb(63, 63, 70);
             }
         }
-
 
         public void LeftStringUpdate(DateTime now)
         {
