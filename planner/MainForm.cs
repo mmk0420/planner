@@ -1,23 +1,25 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using Newtonsoft.Json;
 using Tulpep.NotificationWindow;
-using System.Runtime.CompilerServices;
+using VkNet;
+using VkNet.Abstractions;
+using VkNet.Model;
+
 
 namespace planner
 {
     public partial class MainForm : Form
     {
+        
         public static bool editMode { get; set;  }
         BindingList<PlannerTask> tasks = new BindingList<PlannerTask>();
         System.Windows.Forms.Timer timer;
@@ -27,6 +29,11 @@ namespace planner
         DgvHoverForm taskInfoHover = new DgvHoverForm();
         bool rcBlock = false;
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        bool isHoveredVK = false;
+
+        public static VkApi vkApi;
+        public static string token = null;
+        public static long? ID = null;
 
 
         public MainForm()
@@ -65,6 +72,34 @@ namespace planner
             dgvTask.CellMouseLeave += DgvTask_CellMouseLeave;
             dgvTask.DataBindingComplete += DgvTask_DataBindingComplete;
 
+
+
+            buttonVk.MouseEnter += buttonVk_MouseEnter;
+            buttonVk.MouseLeave += buttonVk_MouseLeave;
+        }
+
+
+        private async void buttonVk_MouseEnter(object sender, EventArgs e)
+        {
+            isHoveredVK = true; 
+
+            while (isHoveredVK && buttonVk.Left > 200)
+            {
+                buttonVk.Left -= 1; 
+                await Task.Delay(5); 
+            }
+        }
+
+        private async void buttonVk_MouseLeave(object sender, EventArgs e)
+        {
+            isHoveredVK = false;
+
+
+            while (!isHoveredVK && buttonVk.Left < 239)
+            {
+                buttonVk.Left += 1; 
+                await Task.Delay(5);
+            }
         }
 
         private void DgvTask_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -110,8 +145,14 @@ namespace planner
         {
             try
             {
-                string json = JsonConvert.SerializeObject(tasks, Formatting.Indented);
-                File.WriteAllText("tasks.json", json);
+                var dataToSave = new PlannerSaveData
+                {
+                    Tasks = tasks.ToList(), 
+                    VkId = ID,
+                    VkToken = token
+                };
+                string json = JsonConvert.SerializeObject(dataToSave, Formatting.Indented);
+                File.WriteAllText("save_planner.json", json);
             }
             catch (Exception ex)
             {
@@ -120,24 +161,33 @@ namespace planner
         }
         private void LoadData()
         {
-            if (File.Exists("tasks.json"))
+            if (!File.Exists("save_planner.json")) return;
+
+            try
             {
-                try
+                string json = File.ReadAllText("save_planner.json");
+
+                var data = JsonConvert.DeserializeObject<PlannerSaveData>(json);
+
+                if (data != null)
                 {
-                    string json = File.ReadAllText("tasks.json");
-                    var loadedTasks = JsonConvert.DeserializeObject<List<PlannerTask>>(json);
+                    ID = data.VkId;
+                    token = data.VkToken;
 
                     tasks.Clear();
-                    foreach (var task in loadedTasks)
+                    if (data.Tasks != null)
                     {
-                        tasks.Add(task);
+                        foreach (var task in data.Tasks)
+                        {
+                            tasks.Add(task);
+                        }
                     }
                     SortTasks();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка загрузки: " + ex.Message);
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки: " + ex.Message);
             }
         }
         private void DgvTask_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
@@ -232,7 +282,7 @@ namespace planner
                     task.Status = 3;
                     if (task.Name.Length > 15) popupStr = $"Одна из задач просрочилась!";
                     else popupStr = $"Задача \"{task.Name}\" просрочилась!";
-                    ShowNewPopup("Провалено!", popupStr, Color.FromArgb(185, 28, 28));
+                    _ = ShowNewPopup("Провалено!", popupStr, Color.FromArgb(185, 28, 28), true);
                     SortTasks();
                 }
 
@@ -279,6 +329,10 @@ namespace planner
                 hoveredRow = -1;
                 hoveredColumn = -1;
             }
+            else
+            {
+                _ = ShowNewPopup("Внимание!", "Наведитесь на задачу, которую вы хотите удалить!", Color.FromArgb(255, 191, 0), false);
+            }
         }
 
         private void EditTask_Click(object sender, EventArgs e)
@@ -313,7 +367,7 @@ namespace planner
             }
             else
             {
-                ShowNewPopup("Внимание!", "Наведитесь на задачу, которую вы хотите изменить!", Color.FromArgb(255, 191, 0));
+                _ = ShowNewPopup("Внимание!", "Наведитесь на задачу, которую вы хотите изменить!", Color.FromArgb(255, 191, 0), false);
             }
         }
 
@@ -337,7 +391,7 @@ namespace planner
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ShowNewPopup("йоу", "мяяяяяяяяяяяяяяяяяяяяяяууууууууууууууууууууууууууууууу", Color.Pink);
+            _ = ShowNewPopup("йоу", "мяяяяяяяяяяяяяяяяяяяяяяууууууууууууууууууууууууууууууу", Color.Pink, true);
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -352,7 +406,7 @@ namespace planner
             DialogResult result = MessageBox.Show("Вы уверены?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                System.Windows.Forms.Application.Exit();
                 SaveData();
             }
         }
@@ -364,7 +418,7 @@ namespace planner
             this.Activate();
         }
 
-        public static async Task ShowNewPopup(string title, string text, Color? customColor)
+        public static async Task ShowNewPopup(string title, string text, Color? customColor, bool vk)
         {
             await semaphoreSlim.WaitAsync();
 
@@ -405,6 +459,20 @@ namespace planner
 
                 popup.Disappear += (s, e) => tcs.TrySetResult(true);
 
+                if (ID != null && token != null && vk)
+                {
+                    try
+                    {
+                        await vkApi.Messages.SendAsync(new MessagesSendParams
+                        {
+                            UserId = ID,
+                            RandomId = new Random().Next(),
+                            Message = $"{title} {text}"
+                        });
+                    }
+                    catch {  }
+                }
+
                 popup.Popup();
 
                 await tcs.Task;
@@ -425,7 +493,7 @@ namespace planner
                 string popupStr;
                 if (task.Name.Length > 15) popupStr = $"Вы просили напомнить об одной из задач!";
                 else popupStr = $"Вы просили напомнить о задаче \"{task.Name}\"!";
-                ShowNewPopup("Напоминание", popupStr, null);
+                _ =ShowNewPopup("Напоминание", popupStr, null, true);
                 task.notifyTimes.Remove(time);
 
                 isNotified = true;
@@ -435,7 +503,7 @@ namespace planner
                 string popupStr;
                 if (task.Name.Length > 15) popupStr = $"Время напоминания одной из задач истекло!";
                 else popupStr = $"Время напоминания задачи \"{task.Name}\" истекло!";
-                ShowNewPopup("Внимание!", popupStr, Color.FromArgb(185, 28, 28));
+                _ =ShowNewPopup("Внимание!", popupStr, Color.FromArgb(185, 28, 28), true);
                 task.notifyTimes.Remove(time);
             }
         }
@@ -468,7 +536,7 @@ namespace planner
             }
             else
             {
-                ShowNewPopup("Внимание!", "Наведитесь на задачу, к которой вы хотите привязать напоминание!", Color.FromArgb(255, 191, 0));
+                _ = ShowNewPopup("Внимание!", "Наведитесь на задачу, к которой вы хотите привязать напоминание!", Color.FromArgb(255, 191, 0), false);
             }
         }
 
@@ -508,6 +576,17 @@ namespace planner
         private void rcDgvTask_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
             rcBlock = false;
+        }
+
+        private void buttonVk_Click(object sender, EventArgs e)
+        {
+            VKlink form = new VKlink();
+            form.ShowDialog();
+            if (form.DialogResult == DialogResult.OK)
+            {
+                token = form.token;
+                ID = form.ID;
+            }
         }
     }
 }
