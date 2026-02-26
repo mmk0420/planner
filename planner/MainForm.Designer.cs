@@ -43,12 +43,15 @@
             this.TrayCMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.планировщикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonVk = new System.Windows.Forms.Button();
             this.dgvTask = new planner.DoubleBufferedDataGridView();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.leftStringDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.taskBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rcDgvTask.SuspendLayout();
             this.TrayCMS.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -140,7 +143,6 @@
             this.button2.TabIndex = 5;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // TrayIcon
@@ -184,6 +186,31 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.buttonVk);
+            this.panel1.Controls.Add(this.dgvTask);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(246, 234);
+            this.panel1.TabIndex = 6;
+            // 
+            // buttonVk
+            // 
+            this.buttonVk.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
+            this.buttonVk.FlatAppearance.BorderSize = 0;
+            this.buttonVk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonVk.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonVk.ForeColor = System.Drawing.Color.White;
+            this.buttonVk.Location = new System.Drawing.Point(239, 190);
+            this.buttonVk.Name = "buttonVk";
+            this.buttonVk.Size = new System.Drawing.Size(46, 29);
+            this.buttonVk.TabIndex = 7;
+            this.buttonVk.Text = "VK";
+            this.buttonVk.UseVisualStyleBackColor = false;
+            this.buttonVk.Click += new System.EventHandler(this.buttonVk_Click);
+            // 
             // dgvTask
             // 
             this.dgvTask.AllowUserToAddRows = false;
@@ -211,7 +238,6 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTask.DefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvTask.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgvTask.EnableHeadersVisualStyles = false;
             this.dgvTask.GridColor = System.Drawing.Color.Black;
             this.dgvTask.Location = new System.Drawing.Point(0, 0);
@@ -223,7 +249,7 @@
             this.dgvTask.RowTemplate.Height = 50;
             this.dgvTask.RowTemplate.ReadOnly = true;
             this.dgvTask.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTask.Size = new System.Drawing.Size(246, 234);
+            this.dgvTask.Size = new System.Drawing.Size(264, 234);
             this.dgvTask.TabIndex = 2;
             this.dgvTask.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTask_CellMouseDown);
             this.dgvTask.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTask_CellMouseEnter);
@@ -254,10 +280,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(246, 312);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.labelStats);
-            this.Controls.Add(this.dgvTask);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -269,6 +295,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.rcDgvTask.ResumeLayout(false);
             this.TrayCMS.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.taskBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -292,6 +319,8 @@
         private System.Windows.Forms.ToolStripMenuItem планировщикToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem НапоминанияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьНапоминаниеToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button buttonVk;
     }
 }
 
