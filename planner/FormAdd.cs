@@ -14,14 +14,18 @@ namespace planner
     {
         public PlannerTask NewTask { get; private set; }
         private PlannerTask tasked;
+        private PlannerTask _task;
         public FormAdd(PlannerTask task)
         {
             InitializeComponent();
+            _task = task;
+            
             if (!MainForm.editMode)
-            {
+            { 
                 dtmInput.Value = DateTime.Now;
                 timeInput.Text = DateTime.Now.ToString("HH:mm");
                 labelMain.Text = "Добавить задачу";
+
             }
             else
             {

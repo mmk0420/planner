@@ -38,7 +38,6 @@
             this.timeInput = new System.Windows.Forms.MaskedTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.DeadlineCheck = new System.Windows.Forms.CheckBox();
-            this.NotifyBtn = new System.Windows.Forms.Button();
             this.dtmInput = new CustomControls.RJControls.RJDatePicker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -119,7 +118,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(15, 211);
+            this.btnSave.Location = new System.Drawing.Point(15, 162);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(333, 49);
             this.btnSave.TabIndex = 26;
@@ -161,21 +160,6 @@
             this.DeadlineCheck.TabIndex = 25;
             this.DeadlineCheck.UseVisualStyleBackColor = false;
             // 
-            // NotifyBtn
-            // 
-            this.NotifyBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
-            this.NotifyBtn.BackgroundImage = global::planner.Properties.Resources.plusss;
-            this.NotifyBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.NotifyBtn.FlatAppearance.BorderSize = 0;
-            this.NotifyBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.NotifyBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.NotifyBtn.ForeColor = System.Drawing.Color.White;
-            this.NotifyBtn.Location = new System.Drawing.Point(15, 159);
-            this.NotifyBtn.Name = "NotifyBtn";
-            this.NotifyBtn.Size = new System.Drawing.Size(50, 46);
-            this.NotifyBtn.TabIndex = 29;
-            this.NotifyBtn.UseVisualStyleBackColor = false;
-            // 
             // dtmInput
             // 
             this.dtmInput.BorderColor = System.Drawing.Color.DimGray;
@@ -198,8 +182,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.ClientSize = new System.Drawing.Size(360, 272);
-            this.Controls.Add(this.NotifyBtn);
+            this.ClientSize = new System.Drawing.Size(360, 221);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.timeInput);
             this.Controls.Add(this.dtmInput);
@@ -238,6 +221,5 @@
         private System.Windows.Forms.MaskedTextBox timeInput;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox DeadlineCheck;
-        private System.Windows.Forms.Button NotifyBtn;
     }
 }

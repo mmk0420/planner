@@ -6,11 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
 using Tulpep.NotificationWindow;
+using System.Runtime.CompilerServices;
 
 namespace planner
 {
@@ -18,19 +20,29 @@ namespace planner
     {
         public static bool editMode { get; set;  }
         BindingList<PlannerTask> tasks = new BindingList<PlannerTask>();
-        Timer timer;
+        System.Windows.Forms.Timer timer;
         DateTime now;
         int hoveredRow = -1;
         int hoveredColumn = -1;
         DgvHoverForm taskInfoHover = new DgvHoverForm();
+        bool rcBlock = false;
+        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        [JsonIgnore]
-        public static Image popIMG { get; private set; } = Properties.Resources.iconPNG;
 
         public MainForm()
         {
             InitializeComponent();
             LoadData();
+            foreach (PlannerTask task in tasks.ToList())
+            {
+                if (task.notifyTimes != null)
+                {
+                    foreach (DateTime dtt in task.notifyTimes.ToList())
+                    {
+                        ScheduleTime(dtt, task);
+                    }
+                }
+            }
 
             this.Icon = Properties.Resources.icon;
             TrayIcon.Icon = Properties.Resources.icon;
@@ -41,7 +53,7 @@ namespace planner
 
             DoubleBuffered = true;
 
-            timer = new Timer();
+            timer = new System.Windows.Forms.Timer();
             timer.Interval = 500;
             timer.Tick += Timer_Tick;
             timer.Start();
@@ -131,8 +143,12 @@ namespace planner
         private void DgvTask_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            hoveredRow = e.RowIndex;
-            hoveredColumn = e.ColumnIndex;
+
+            if (!rcBlock)
+            {
+                hoveredRow = e.RowIndex;
+                hoveredColumn = e.ColumnIndex;
+            }
 
             var task = dgvTask.Rows[e.RowIndex].DataBoundItem as PlannerTask;
             if (task != null)
@@ -158,8 +174,11 @@ namespace planner
                 dgvTask.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = normalColor;
             }
 
-            hoveredRow = -1;
-            hoveredColumn = -1;
+            if (!rcBlock)
+            {
+                hoveredRow = -1;
+                hoveredColumn = -1;
+            }
             taskInfoHover.Hide();
         }
 
@@ -190,6 +209,13 @@ namespace planner
                 SaveData();
                 dgvTask.Invalidate();
             }
+            if (hoveredRow == -1 && hoveredColumn == -1)
+            {
+                foreach (DataGridViewRow row in dgvTask.Rows)
+                {
+                    row.Selected = false;
+                }
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -199,16 +225,14 @@ namespace planner
             {
                 task.left = task.Deadline - now;
 
-                NotifyUpdate(task);
-
                 if (!task.isOverdue && now > task.Deadline && task.Status != 2)
                 {
+                    string popupStr;
                     task.isOverdue = true;
                     task.Status = 3;
-                    if (task.Name.Length > 15) task.popupStr = $"Одна из задач просрочилась!";
-                    else task.popupStr = $"Задача \"{task.Name}\" просрочилась!";
-                    task.popup.ContentText = task.popupStr;
-                    task.popup.Popup();
+                    if (task.Name.Length > 15) popupStr = $"Одна из задач просрочилась!";
+                    else popupStr = $"Задача \"{task.Name}\" просрочилась!";
+                    ShowNewPopup("Провалено!", popupStr, Color.FromArgb(185, 28, 28));
                     SortTasks();
                 }
 
@@ -221,53 +245,6 @@ namespace planner
             dgvTask.Invalidate();
         }
 
-        private void NotifyUpdate(PlannerTask task)
-        {
-            string statusPrefix = "";
-            int totalHours = (int)task.left.TotalHours;
-            double totalMinutesLeft = task.left.TotalMinutes;
-
-            if (task.Status == 0)
-            {
-                statusPrefix = " Начните её!";
-            }
-
-            if (task.Notification == -1225)
-            {
-                if (totalMinutesLeft <= 5) task.Notification = -1;
-                else if (totalMinutesLeft <= 30) task.Notification = 2;
-                else if (totalMinutesLeft <= 60) task.Notification = 1;
-                else task.Notification = 0;
-            }
-            else
-            {
-                if (totalMinutesLeft <= 5 && task.Notification != -1)
-                {
-                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 5 минут!{statusPrefix}";
-                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 5 минут!{statusPrefix}";
-                    task.popup.ContentText = task.popupStr;
-                    task.Notification = -1;
-                    task.popup.Popup();
-                }
-                else if (totalMinutesLeft <= 30 && totalMinutesLeft > 5 && task.Notification < 2 && task.Notification >= 0)
-                {
-                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше 30 минут!{statusPrefix}";
-                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше 30 минут!{statusPrefix}";
-                    task.popup.ContentText = task.popupStr;
-                    task.Notification = 2;
-                    task.popup.Popup();
-                }
-                else if (totalMinutesLeft <= 60 && totalMinutesLeft > 30 && task.Notification < 1 && task.Notification >= 0)
-                {
-                    if (task.Name.Length > 15) task.popupStr = $"До дедлайна одной из задач осталось меньше часа!{statusPrefix}";
-                    else task.popupStr = $"До дедлайна задачи \"{task.Name}\" осталось меньше часа!{statusPrefix}";
-                    task.popup.ContentText = task.popupStr;
-                    task.Notification = 1;
-                    task.popup.Popup();
-                }
-            }
-            return;
-        }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -285,7 +262,7 @@ namespace planner
 
         private void DeleteTask(object sender, EventArgs e)
         {
-            if (dgvTask.SelectedRows.Count == 1)
+            if (dgvTask.SelectedRows.Count == 1 && hoveredRow != -1 && hoveredColumn != -1)
             {
                 DialogResult result = MessageBox.Show("Вы уверены? (Это действие - не выполнение задачи)", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
@@ -299,14 +276,17 @@ namespace planner
                     SaveData();
                     SortTasks();
                 }
+                hoveredRow = -1;
+                hoveredColumn = -1;
             }
         }
 
         private void EditTask_Click(object sender, EventArgs e)
         {
-            if (dgvTask.SelectedRows.Count > 0)
+            if (dgvTask.SelectedRows.Count > 0 && hoveredColumn != -1 && hoveredRow != -1)
             {
-                var task = dgvTask.SelectedRows[0].DataBoundItem as PlannerTask;
+                var row = dgvTask.SelectedRows[0];
+                var task = row.DataBoundItem as PlannerTask;
 
                 if (task.Status == 2)
                 {
@@ -326,8 +306,14 @@ namespace planner
                 {
                     SaveData(); 
                 }
+                hoveredRow = -1;
+                hoveredColumn = -1;
                 dgvTask.Refresh(); 
                 SortTasks();       
+            }
+            else
+            {
+                ShowNewPopup("Внимание!", "Наведитесь на задачу, которую вы хотите изменить!", Color.FromArgb(255, 191, 0));
             }
         }
 
@@ -351,10 +337,7 @@ namespace planner
 
         private void button2_Click(object sender, EventArgs e)
         {
-            foreach (PlannerTask task in tasks)
-            {
-                task.popup.Popup();
-            }
+            ShowNewPopup("йоу", "мяяяяяяяяяяяяяяяяяяяяяяууууууууууууууууууууууууууууууу", Color.Pink);
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -379,6 +362,152 @@ namespace planner
             this.Show();
             this.WindowState = FormWindowState.Normal;
             this.Activate();
+        }
+
+        public static async Task ShowNewPopup(string title, string text, Color? customColor)
+        {
+            await semaphoreSlim.WaitAsync();
+
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                PopupNotifier popup = new PopupNotifier();
+
+                popup.BodyColor = Color.FromArgb(45, 45, 48);
+                popup.BorderColor = Color.FromArgb(60, 60, 65);
+                popup.GradientPower = 0;
+
+                popup.TitleText = title;
+                if (customColor != null)
+                {
+                    popup.TitleColor = (Color)customColor;
+                    popup.HeaderColor = (Color)customColor;
+                }
+                else
+                {
+                    popup.TitleColor = Color.FromArgb(0, 190, 255);
+                    popup.HeaderColor = Color.FromArgb(0, 122, 204);
+                }
+                popup.TitleFont = new Font("Segoe UI", 15, FontStyle.Bold);
+
+                popup.ContentText = text;
+                popup.ContentColor = Color.White;
+                popup.ContentFont = new Font("Segoe UI", 12);
+
+                popup.ShowGrip = false;
+                popup.Delay = 4000;
+                popup.AnimationDuration = 1000;
+                popup.AnimationInterval = 10;
+
+                popup.Size = new Size(400, 210);
+
+                popup.Image = Properties.Resources.iconPNG;
+
+                popup.Disappear += (s, e) => tcs.TrySetResult(true);
+
+                popup.Popup();
+
+                await tcs.Task;
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+        }
+
+        public static async void ScheduleTime(DateTime time, PlannerTask task)
+        {
+            bool isNotified = false;
+            TimeSpan left = time - DateTime.Now;
+            if (left > TimeSpan.Zero)
+            {
+                await Task.Delay(left);
+                string popupStr;
+                if (task.Name.Length > 15) popupStr = $"Вы просили напомнить об одной из задач!";
+                else popupStr = $"Вы просили напомнить о задаче \"{task.Name}\"!";
+                ShowNewPopup("Напоминание", popupStr, null);
+                task.notifyTimes.Remove(time);
+
+                isNotified = true;
+            }
+            else if (!isNotified)
+            {
+                string popupStr;
+                if (task.Name.Length > 15) popupStr = $"Время напоминания одной из задач истекло!";
+                else popupStr = $"Время напоминания задачи \"{task.Name}\" истекло!";
+                ShowNewPopup("Внимание!", popupStr, Color.FromArgb(185, 28, 28));
+                task.notifyTimes.Remove(time);
+            }
+        }
+
+        private void добавитьНапоминаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvTask.SelectedRows.Count > 0 && hoveredRow != -1 && hoveredColumn != -1)
+            {
+                var row = dgvTask.SelectedRows[0];
+                var task = row.DataBoundItem as PlannerTask;
+                if (task.Status == 2)
+                {
+                    return;
+                }
+                if (task.Status == 3)
+                {
+                    return;
+                }
+                taskInfoHover.Hide();
+
+                NotifyForm form = new NotifyForm(task);
+                form.Location = new Point(Cursor.Position.X - form.Width/2, Cursor.Position.Y - form.Height/2);       
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    task.notifyTimes = form.task1.notifyTimes;
+                    SaveData();
+                }
+                hoveredRow = -1;
+                hoveredColumn = -1;
+            }
+            else
+            {
+                ShowNewPopup("Внимание!", "Наведитесь на задачу, к которой вы хотите привязать напоминание!", Color.FromArgb(255, 191, 0));
+            }
+        }
+
+        private void rcDgvTask_Opening(object sender, CancelEventArgs e)
+        {
+            rcBlock = true;
+            ToolStripMenuItem item = НапоминанияToolStripMenuItem;
+            for (int i = item.DropDownItems.Count - 1; i >= 0; i--)
+            {
+                if (item.DropDownItems[i].Text != "Добавить напоминание")
+                {
+                    item.DropDownItems.RemoveAt(i);
+                }
+            }
+            foreach (PlannerTask task in tasks)
+            {
+                if (task.notifyTimes == null) continue;
+
+                foreach (DateTime time in task.notifyTimes)
+                {
+                    string finalString = $"\"{task.Name}\" : {time.ToString("dd.MM HH:mm")}";
+                    var nitem = item.DropDownItems.Add(finalString);
+                    nitem.BackColor = Color.FromArgb(45, 45, 48);
+                    nitem.ForeColor = Color.White;
+                    nitem.Click += (s, m) =>
+                    {
+                        if (MessageBox.Show("Удалить напоминание?", "Удаление", MessageBoxButtons.YesNo) == DialogResult.OK)
+                        {
+                            task.notifyTimes.Remove(time);
+                            item.DropDownItems.Remove(nitem);
+                        }
+                    };
+                }
+            }
+        }
+
+        private void rcDgvTask_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            rcBlock = false;
         }
     }
 }

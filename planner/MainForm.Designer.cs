@@ -32,6 +32,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.rcDgvTask = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.НапоминанияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.добавитьНапоминаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditTask = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelStats = new System.Windows.Forms.Label();
@@ -57,11 +59,32 @@
             this.rcDgvTask.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.rcDgvTask.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rcDgvTask.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.НапоминанияToolStripMenuItem,
             this.EditTask,
             this.удалитьToolStripMenuItem});
             this.rcDgvTask.Name = "rcDgvTask";
             this.rcDgvTask.ShowImageMargin = false;
-            this.rcDgvTask.Size = new System.Drawing.Size(110, 48);
+            this.rcDgvTask.Size = new System.Drawing.Size(134, 70);
+            this.rcDgvTask.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.rcDgvTask_Closing);
+            this.rcDgvTask.Opening += new System.ComponentModel.CancelEventHandler(this.rcDgvTask_Opening);
+            // 
+            // НапоминанияToolStripMenuItem
+            // 
+            this.НапоминанияToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.добавитьНапоминаниеToolStripMenuItem});
+            this.НапоминанияToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.НапоминанияToolStripMenuItem.Name = "НапоминанияToolStripMenuItem";
+            this.НапоминанияToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.НапоминанияToolStripMenuItem.Text = "Напоминания";
+            // 
+            // добавитьНапоминаниеToolStripMenuItem
+            // 
+            this.добавитьНапоминаниеToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.добавитьНапоминаниеToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            this.добавитьНапоминаниеToolStripMenuItem.Name = "добавитьНапоминаниеToolStripMenuItem";
+            this.добавитьНапоминаниеToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.добавитьНапоминаниеToolStripMenuItem.Text = "Добавить напоминание";
+            this.добавитьНапоминаниеToolStripMenuItem.Click += new System.EventHandler(this.добавитьНапоминаниеToolStripMenuItem_Click);
             // 
             // EditTask
             // 
@@ -69,7 +92,7 @@
             this.EditTask.ForeColor = System.Drawing.Color.White;
             this.EditTask.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.EditTask.Name = "EditTask";
-            this.EditTask.Size = new System.Drawing.Size(109, 22);
+            this.EditTask.Size = new System.Drawing.Size(133, 22);
             this.EditTask.Text = "Изменить";
             this.EditTask.Click += new System.EventHandler(this.EditTask_Click);
             // 
@@ -81,7 +104,7 @@
             this.удалитьToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.удалитьToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.DeleteTask);
             // 
@@ -189,6 +212,7 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvTask.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvTask.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dgvTask.EnableHeadersVisualStyles = false;
             this.dgvTask.GridColor = System.Drawing.Color.Black;
             this.dgvTask.Location = new System.Drawing.Point(0, 0);
             this.dgvTask.MultiSelect = false;
@@ -201,6 +225,7 @@
             this.dgvTask.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTask.Size = new System.Drawing.Size(246, 234);
             this.dgvTask.TabIndex = 2;
+            this.dgvTask.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTask_CellMouseDown);
             this.dgvTask.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTask_CellMouseEnter);
             this.dgvTask.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTask_CellMouseLeave);
             this.dgvTask.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTask_CellMouseMove);
@@ -265,6 +290,8 @@
         private System.Windows.Forms.ContextMenuStrip TrayCMS;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem планировщикToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem НапоминанияToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem добавитьНапоминаниеToolStripMenuItem;
     }
 }
 
