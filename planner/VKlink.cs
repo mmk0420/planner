@@ -17,6 +17,7 @@ namespace planner
     {
         public long? ID;
         public string token;
+        private VkApi vkApi;
         public VKlink()
         {
             InitializeComponent();
@@ -38,11 +39,11 @@ namespace planner
                 return;
             }
 
-            MainForm.vkApi = new VkApi();
+            vkApi = new VkApi();
             try
             {
-                await MainForm.vkApi.AuthorizeAsync(new ApiAuthParams { AccessToken = token });
-                await MainForm.vkApi.Messages.SendAsync(new MessagesSendParams
+                await vkApi.AuthorizeAsync(new ApiAuthParams { AccessToken = token });
+                await vkApi.Messages.SendAsync(new MessagesSendParams
                 {
                     UserId = ID,
                     RandomId = new Random().Next(),
