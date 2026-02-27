@@ -40,7 +40,12 @@ namespace planner
         {
             InitializeComponent();
             LoadData();
-            VkLoad();
+            try
+            {
+                VkLoad();
+            }
+            catch { }
+            
             foreach (PlannerTask task in tasks.ToList())
             {
                 if (task.notifyTimes != null)
