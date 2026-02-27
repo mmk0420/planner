@@ -40,11 +40,14 @@ namespace planner
         {
             InitializeComponent();
             LoadData();
-            try
+            if (ID != null && token != null)
             {
-                VkLoad();
+                try
+                {
+                    VkLoad();
+                }
+                catch { }
             }
-            catch { }
             
             foreach (PlannerTask task in tasks.ToList())
             {
