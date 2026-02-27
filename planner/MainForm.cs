@@ -31,7 +31,7 @@ namespace planner
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         bool isHoveredVK = false;
 
-        public static VkApi vkApi;
+        static VkApi vkApi = new VkApi();
         public static string token = null;
         public static long? ID = null;
 
@@ -40,6 +40,7 @@ namespace planner
         {
             InitializeComponent();
             LoadData();
+            VkLoad();
             foreach (PlannerTask task in tasks.ToList())
             {
                 if (task.notifyTimes != null)
@@ -123,6 +124,15 @@ namespace planner
                     }
                 }
             }
+        }
+
+        private async static void VkLoad()
+        {
+            try
+            {
+                await vkApi.AuthorizeAsync(new ApiAuthParams { AccessToken = token });
+            }
+            catch (Exception ex) { MessageBox.Show($"{ex}");  }
         }
 
         private void SortTasks()
@@ -461,16 +471,17 @@ namespace planner
 
                 if (ID != null && token != null && vk)
                 {
+
                     try
                     {
                         await vkApi.Messages.SendAsync(new MessagesSendParams
                         {
                             UserId = ID,
                             RandomId = new Random().Next(),
-                            Message = $"{title} {text}"
+                            Message = $"»» {title} ««\n ——————— \n{text}\n ——————— "
                         });
                     }
-                    catch {  }
+                    catch (Exception ex) { MessageBox.Show($"{ex}"); }
                 }
 
                 popup.Popup();
