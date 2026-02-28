@@ -143,6 +143,7 @@
             this.button2.TabIndex = 5;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // TrayIcon
@@ -188,8 +189,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.buttonVk);
-            this.panel1.Controls.Add(this.dgvTask);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
