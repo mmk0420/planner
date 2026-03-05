@@ -409,7 +409,7 @@ namespace planner
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _ = ShowNewPopup("йоу", "мяяяяяяяяяяяяяяяяяяяяяяууууууууууууууууууууууууууууууу", Color.Pink, true);
+            _ = ShowNewPopup("Тест", "Если вы это нашли не трогайте плз :3", Color.Pink, true);
         }
 
         private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -563,6 +563,7 @@ namespace planner
         {
             rcBlock = true;
             ToolStripMenuItem item = НапоминанияToolStripMenuItem;
+
             for (int i = item.DropDownItems.Count - 1; i >= 0; i--)
             {
                 if (item.DropDownItems[i].Text != "Добавить напоминание")
@@ -570,24 +571,34 @@ namespace planner
                     item.DropDownItems.RemoveAt(i);
                 }
             }
+
             foreach (PlannerTask task in tasks)
             {
                 if (task.notifyTimes == null) continue;
 
                 foreach (DateTime time in task.notifyTimes)
                 {
-                    string finalString = $"\"{task.Name}\" : {time.ToString("dd.MM HH:mm")}";
-                    var nitem = item.DropDownItems.Add(finalString);
+                    string finalString = $"\"{task.Name}\" : {time:dd.MM HH:mm}";
+                    var nitem = new ToolStripMenuItem(finalString);
+
                     nitem.BackColor = Color.FromArgb(45, 45, 48);
                     nitem.ForeColor = Color.White;
+
+                    nitem.Tag = time;
+
                     nitem.Click += (s, m) =>
                     {
-                        if (MessageBox.Show("Удалить напоминание?", "Удаление", MessageBoxButtons.YesNo) == DialogResult.OK)
+                        if (MessageBox.Show("Удалить напоминание?", "Удаление", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            task.notifyTimes.Remove(time);
-                            item.DropDownItems.Remove(nitem);
+                            DateTime timeToRemove = (DateTime)((ToolStripMenuItem)s).Tag;
+
+                            task.notifyTimes.Remove(timeToRemove);
+
+                            item.DropDownItems.Remove((ToolStripMenuItem)s);
                         }
                     };
+
+                    item.DropDownItems.Add(nitem);
                 }
             }
         }
