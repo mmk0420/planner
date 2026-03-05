@@ -42,23 +42,41 @@ namespace planner
             LoadData();
             if (ID != null && token != null)
             {
-                try
-                {
-                    VkLoad();
-                }
-                catch { }
+                try { VkLoad(); } catch { }
             }
-            
+
+            List<string> missedNotifications = new List<string>();
+            bool needsSave = false;
+
             foreach (PlannerTask task in tasks.ToList())
             {
                 if (task.notifyTimes != null)
                 {
                     foreach (DateTime dtt in task.notifyTimes.ToList())
                     {
-                        ScheduleTime(dtt, task);
+                        if (dtt < DateTime.Now)
+                        {
+                            missedNotifications.Add($"- {task.Name} ({dtt:HH:mm})");
+                            task.notifyTimes.Remove(dtt);
+                            needsSave = true;
+                        }
+                        else
+                        {
+                            ScheduleTime(dtt, task);
+                        }
                     }
                 }
             }
+
+            if (missedNotifications.Count > 0)
+            {
+                string missedText = string.Join("\n", missedNotifications);
+                if (missedText.Length > 150) missedText = missedText.Substring(0, 147) + "...";
+
+                _ = ShowNewPopup("Пропущено!", $"Пока вас не было:\n{missedText}", Color.FromArgb(185, 28, 28), true);
+            }
+
+            if (needsSave) SaveData();
 
             this.Icon = Properties.Resources.icon;
             TrayIcon.Icon = Properties.Resources.icon;
@@ -339,6 +357,7 @@ namespace planner
                     var selectedTask = row.DataBoundItem as PlannerTask;   
                     if (selectedTask != null)
                     {
+                        selectedTask.Cts.Cancel();
                         tasks.Remove(selectedTask);
                     }
                     SaveData();
@@ -506,23 +525,37 @@ namespace planner
         {
             bool isNotified = false;
             TimeSpan left = time - DateTime.Now;
+
             if (left > TimeSpan.Zero)
             {
-                await Task.Delay(left);
-                string popupStr;
-                if (task.Name.Length > 15) popupStr = $"Вы просили напомнить об одной из задач!";
-                else popupStr = $"Вы просили напомнить о задаче \"{task.Name}\"!";
-                _ =ShowNewPopup("Напоминание", popupStr, null, true);
-                task.notifyTimes.Remove(time);
+                try
+                {
+                    await Task.Delay(left, task.Cts.Token);
+                }
+                catch (TaskCanceledException)
+                {
+                    return;
+                }
 
+                if (!task.notifyTimes.Contains(time)) return;
+
+                string popupStr = task.Name.Length > 15
+                    ? $"Вы просили напомнить об одной из задач!"
+                    : $"Вы просили напомнить о задаче \"{task.Name}\"!";
+
+                _ = ShowNewPopup("Напоминание", popupStr, null, true);
+                task.notifyTimes.Remove(time);
                 isNotified = true;
             }
             else if (!isNotified)
             {
-                string popupStr;
-                if (task.Name.Length > 15) popupStr = $"Время напоминания одной из задач истекло!";
-                else popupStr = $"Время напоминания задачи \"{task.Name}\" истекло!";
-                _ =ShowNewPopup("Внимание!", popupStr, Color.FromArgb(185, 28, 28), true);
+                if (!task.notifyTimes.Contains(time)) return;
+
+                string popupStr = task.Name.Length > 15
+                    ? $"Время напоминания одной из задач истекло!"
+                    : $"Время напоминания задачи \"{task.Name}\" истекло!";
+
+                _ = ShowNewPopup("Внимание!", popupStr, Color.FromArgb(185, 28, 28), true);
                 task.notifyTimes.Remove(time);
             }
         }
@@ -616,6 +649,7 @@ namespace planner
             {
                 token = form.token;
                 ID = form.ID;
+                VkLoad();
             }
         }
     }

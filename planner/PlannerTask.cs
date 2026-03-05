@@ -1,11 +1,12 @@
-﻿using planner.Properties;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using planner.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tulpep.NotificationWindow;
@@ -28,7 +29,9 @@ namespace planner
         public TimeSpan left { get; set; }
         [JsonIgnore]
         public string leftString { get; set; }
-        public int Notification { get; set; } = 0; 
+        public int Notification { get; set; } = 0;
+        [JsonIgnore]
+        public CancellationTokenSource Cts { get; set; } = new CancellationTokenSource();
 
 
         public PlannerTask()
