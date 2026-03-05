@@ -22,8 +22,9 @@ namespace planner
             
             if (!MainForm.editMode)
             { 
+                DateTime _time = DateTime.Now.AddHours(1);
                 dtmInput.Value = DateTime.Now;
-                timeInput.Text = DateTime.Now.ToString("HH:mm");
+                timeInput.Text = _time.ToString("HH:mm");
                 labelMain.Text = "Добавить задачу";
 
             }
