@@ -37,7 +37,6 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.timeInput = new System.Windows.Forms.MaskedTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.DeadlineCheck = new System.Windows.Forms.CheckBox();
             this.dtmInput = new CustomControls.RJControls.RJDatePicker();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -132,10 +131,10 @@
             this.timeInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.timeInput.Font = new System.Drawing.Font("Segoe UI Emoji", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.timeInput.ForeColor = System.Drawing.Color.White;
-            this.timeInput.Location = new System.Drawing.Point(99, 131);
+            this.timeInput.Location = new System.Drawing.Point(80, 131);
             this.timeInput.Mask = "00:00";
             this.timeInput.Name = "timeInput";
-            this.timeInput.Size = new System.Drawing.Size(37, 25);
+            this.timeInput.Size = new System.Drawing.Size(56, 25);
             this.timeInput.TabIndex = 27;
             this.timeInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.timeInput.ValidatingType = typeof(System.DateTime);
@@ -147,18 +146,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(268, 69);
             this.panel1.TabIndex = 28;
-            // 
-            // DeadlineCheck
-            // 
-            this.DeadlineCheck.BackColor = System.Drawing.Color.Transparent;
-            this.DeadlineCheck.Checked = true;
-            this.DeadlineCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.DeadlineCheck.ForeColor = System.Drawing.Color.Black;
-            this.DeadlineCheck.Location = new System.Drawing.Point(80, 131);
-            this.DeadlineCheck.Name = "DeadlineCheck";
-            this.DeadlineCheck.Size = new System.Drawing.Size(46, 25);
-            this.DeadlineCheck.TabIndex = 25;
-            this.DeadlineCheck.UseVisualStyleBackColor = false;
             // 
             // dtmInput
             // 
@@ -191,7 +178,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelMain);
-            this.Controls.Add(this.DeadlineCheck);
             this.Controls.Add(this.label5);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ForeColor = System.Drawing.Color.Black;
@@ -220,6 +206,5 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.MaskedTextBox timeInput;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox DeadlineCheck;
     }
 }

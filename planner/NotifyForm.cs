@@ -18,6 +18,9 @@ namespace planner
             InitializeComponent();
             task1 = task;
             Save1.DialogResult = DialogResult.OK;
+            DateTime _time = DateTime.Now.AddHours(1);
+            dtmInput1.Value = DateTime.Now;
+            timeInput1.Text = _time.ToString("HH:mm");
         }
 
         private void Cancel1_Click(object sender, EventArgs e)
