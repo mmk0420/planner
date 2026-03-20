@@ -19,7 +19,41 @@
 
 ## Скриншоты
 
-> _Добавь скриншоты сюда_
+<details>
+  <summary>Главный экран &nbsp;</summary>
+  <br>
+  <img src="https://github.com/user-attachments/assets/3ae57706-629a-45bc-ba1d-333be0294da3" width="280"/>
+</details>
+
+<details>
+  <summary>Задачи &nbsp;</summary>
+  <br>
+  <table><tr>
+    <td><img src="https://github.com/user-attachments/assets/be22f423-dcd5-4e83-8f02-c6a8cf6cb8a4" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/6d5f785e-e0fa-429d-a7cf-b97bb8098f73" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/d008a827-557d-42b1-bd9b-aa6f3f6ec1a9" width="280"/></td>
+  </tr></table>
+</details>
+
+<details>
+  <summary>Манипулирование задачами &nbsp;</summary>
+  <br>
+  <table><tr>
+    <td><img src="https://github.com/user-attachments/assets/49f3d2ff-80bb-4c0f-9a24-ec0b3c2267a4" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/d1a566cf-9543-4e89-b39d-8179f813c80f" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/9e49039b-8516-45c4-9456-6b5fc48e8211" width="280"/></td>
+  </tr></table>
+</details>
+
+<details>
+  <summary>Уведомления &nbsp;</summary>
+  <br>
+  <table><tr>
+    <td><img src="https://github.com/user-attachments/assets/922de17f-748d-400e-bf0e-b19cc8efb3c0" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/82024454-e128-40bd-aa29-c7e43ff1b048" width="280"/></td>
+    <td><img src="https://github.com/user-attachments/assets/78b9c941-3fe7-4fe6-8f56-74721df50a5d" width="280"/></td>
+  </tr></table>
+</details>
 
 ## Установка
 
