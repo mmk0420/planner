@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11512.155 d18.3
+VisualStudioVersion = 18.3.11512.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "planner", "planner\planner.csproj", "{9FDBA38F-1FF9-4A88-97E2-FD610EB4FFB0}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupPlanner", "SetupPlanner\SetupPlanner.vdproj", "{60DA5E6B-E961-2F25-6FC3-5B7FFF7F68C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +15,6 @@ Global
 		{9FDBA38F-1FF9-4A88-97E2-FD610EB4FFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FDBA38F-1FF9-4A88-97E2-FD610EB4FFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FDBA38F-1FF9-4A88-97E2-FD610EB4FFB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60DA5E6B-E961-2F25-6FC3-5B7FFF7F68C8}.Debug|Any CPU.ActiveCfg = Debug
-		{60DA5E6B-E961-2F25-6FC3-5B7FFF7F68C8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
