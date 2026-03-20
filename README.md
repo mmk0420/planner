@@ -81,6 +81,4 @@ git clone https://github.com/mmk0420/Planner.git
 | Уведомления | Tulpep.NotificationWindow |
 | VK API | VkNet |
 
-## Лицензия
 
-MIT
