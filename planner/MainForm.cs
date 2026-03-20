@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 using Tulpep.NotificationWindow;
 using VkNet;
 using VkNet.Abstractions;
@@ -100,10 +101,10 @@ namespace planner
             dgvTask.DataBindingComplete += DgvTask_DataBindingComplete;
 
 
-
             buttonVk.MouseEnter += buttonVk_MouseEnter;
             buttonVk.MouseLeave += buttonVk_MouseLeave;
         }
+
 
 
         private async void buttonVk_MouseEnter(object sender, EventArgs e)
@@ -269,38 +270,44 @@ namespace planner
         }
 
 
+        private bool isProcessingClick = false;
+
         private void dgvTask_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (isProcessingClick) return;
+
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            hoveredRow = e.RowIndex;
+            hoveredColumn = e.ColumnIndex;
+
             if (e.Button == MouseButtons.Right && hoveredRow >= 0 && hoveredColumn >= 0)
             {
                 dgvTask.Rows[hoveredRow].Selected = true;
                 taskInfoHover.Hide();
             }
+
             if (e.Button == MouseButtons.Left && hoveredRow >= 0 && hoveredColumn >= 0)
             {
+                isProcessingClick = true;
+
                 PlannerTask task = tasks[hoveredRow];
-                switch (task.Status)
+                if (task.Status == 2 || task.Status == 3)
                 {
-                    case 0:
-                        task.Status = 1;
-                        break;
-                    case 1:
-                        task.Status = 2;
-                        break;
-                    default:
-                        return;
+                    isProcessingClick = false;
+                    return;
                 }
+
+                task.Status = task.Status == 0 ? 1 : 2;
                 taskInfoHover.UpdateData(task);
-                SortTasks();
-                SaveData();
-                dgvTask.Invalidate();
-            }
-            if (hoveredRow == -1 && hoveredColumn == -1)
-            {
-                foreach (DataGridViewRow row in dgvTask.Rows)
+
+                this.BeginInvoke(new Action(() =>
                 {
-                    row.Selected = false;
-                }
+                    SortTasks();
+                    SaveData();
+                    dgvTask.Invalidate();
+                    isProcessingClick = false;
+                }));
             }
         }
 
