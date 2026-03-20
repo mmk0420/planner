@@ -158,7 +158,7 @@ namespace planner
             {
                 await vkApi.AuthorizeAsync(new ApiAuthParams { AccessToken = token });
             }
-            catch (Exception ex) { MessageBox.Show($"{ex}");  }
+            catch (Exception) {  }
         }
 
         private void SortTasks()
@@ -358,6 +358,7 @@ namespace planner
                     if (selectedTask != null)
                     {
                         selectedTask.Cts.Cancel();
+                        selectedTask.notifyTimes.Clear();
                         tasks.Remove(selectedTask);
                     }
                     SaveData();
@@ -496,6 +497,8 @@ namespace planner
 
                 popup.Disappear += (s, e) => tcs.TrySetResult(true);
 
+                popup.Popup();
+
                 if (ID != null && token != null && vk)
                 {
 
@@ -508,10 +511,8 @@ namespace planner
                             Message = $"»» {title} ««\n ——————— \n{text}\n ——————— "
                         });
                     }
-                    catch (Exception ex) { MessageBox.Show($"{ex}"); }
+                    catch (Exception) {  }
                 }
-
-                popup.Popup();
 
                 await tcs.Task;
             }
